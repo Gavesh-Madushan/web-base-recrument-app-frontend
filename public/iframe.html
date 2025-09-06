@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function main() {
+            const ifrm = document.getElementById("ifrm");
+
+            const btnDownload = document.getElementById("btnDownload");
+            btnDownload.style.display = "initial";
+            btnDownload.addEventListener("click", () => {
+                ifrm.contentWindow.toPdf()
+            });
+
+            const res = {
+                "id": 1,
+                "userId": 1,
+                "divisionId": 1,
+                "createdAt": "1970-01-01T00:00:00.000Z",
+                "type": "ANNUAL",
+                "period": "ONE_DAY",
+                "year": 2000,
+                "month": 0,
+                "day": 1,
+                "emp1ApprovalState": "PENDING",
+                "emp2ApprovalState": "PENDING",
+                "description": null,
+                "comment": null,
+                "division": {
+                    "name": "Marketing"
+                },
+                "user": {
+                    "class": "MANAGER",
+                    "employeeNumber": "E0007",
+                    "nameInitials": "G M Madushan",
+                    "remainingLeaveDaysAnnual": 0,
+                    "entitledLeaveDaysAnnual": 0,
+                    "remainingLeaveDaysMedical": 0,
+                    "entitledLeaveDaysMedical": 0,
+                    "remainingLeaveDaysCasual": 0,
+                    "entitledLeaveDaysCasual": 0
+                },
+                "approvedBy": {
+                    "class": "MANAGER",
+                    "employeeNumber": "M0003",
+                    "nameInitials": "V M Muthukumarana"
+                }
+            };
+
+            ifrm.contentWindow.generateContent(res);
+        };
+    </script>
+</head>
+
+<body onload="main();">
+    <iframe id="ifrm" src="./test.html"></iframe>
+    <button id="btnDownload" style="display: none">Download</button>
+</body>
+
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Request Form</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Ubuntu", sans-serif;
+            /* border: thin solid red; */
+        }
+
+        :root {
+            --invoice-primary-color: rgb(10, 117, 173);
+            --invoice-first-color: #58595b;
+            --invoice-white-color: #e6e7e8;
+        }
+
+        html,
+        body {
+            min-width: 210mm;
+        }
+
+        body {
+        }
+        
+        th, td {
+            text-align: right;
+        }
+
+        th:first-child, td:first-child {
+            text-align: left;
+        }
+        
+        #content {
+            padding: 10mm;
+            min-width: 210mm;
+            max-width: 210mm;
+            margin: auto;
+        }
+
+        .section {
+            margin-bottom: 10mm;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header>img {
+            height: 100px;
+        }
+
+        .header>div>* {
+            text-align: right;
+        }
+
+        .info {
+            background-color: var(--invoice-white-color);
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .info>table {
+            border-collapse: collapse;
+            border: none;
+        }
+
+        .info>table>tbody>tr>td:last-child {
+            padding-left: 1cm;
+            text-align: left;
+        }
+
+        .table-container>table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table-container>table>thead>tr {
+            background-color: var(--invoice-primary-color);
+            color: white;
+        }
+
+        .table-container>table>tbody>tr:nth-child(odd) {
+            background-color: var(--invoice-white-color);
+        }
+
+        .table-container>table th, .table-container>table td {
+            padding: 10px;
+        }
+
+        .signature {
+            display: flex;
+            flex-direction: column;
+            align-items: end;
+        }
+
+        .signature>* {
+            width: 50%;
+            text-align: center;
+        }
+    </style>
+    
+    <script>
+        function addScript(url) {
+            var script = document.createElement('script');
+            script.type = 'application/javascript';
+            script.src = url;
+            document.head.appendChild(script);
+        }
+        addScript('https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js');
+
+        function generateContent(res) {
+            document.body.innerHTML = `
+            <div id="content">
+                <div class="section header">
+                    <img src="./stafford_logo.png" alt="Company Logo">
+                    <div class="title">
+                        <h2>LEAVE REQUEST</h2>
+                        <p>${new Date(res.createdAt).toLocaleDateString("en-CA")}</p>
+                    </div>
+                </div>
+                <hr class="section"/>
+                <div class="section info">
+                    <table>
+                        <tr>
+                            <td>Name with Initial:</td>
+                            <td>${res.user.nameInitials}</td>
+                        </tr>
+                        <tr>
+                            <td>Employee No:</td>
+                            <td>${res.user.employeeNumber}</td>
+                        </tr>
+                        <tr>
+                            <td>Designation:</td>
+                            <td>${res.user.designation}</td>
+                        </tr>
+                        <tr>
+                            <td>Division:</td>
+                            <td>${res.division.name}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="section table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Period</th>
+                                <th>Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>${new Date(res.year, res.month, res.day).toLocaleDateString("en-CA")}</td>
+                                <td>${res.period}</td>
+                                <td>${res.type}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="section reason">
+                    <p>Reason: ${res.description ?? "-"}</p>
+                </div>
+                <div class="section table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Annual</th>
+                                <th>Medical</th>
+                                <th>Casual</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Leave Eligible</td>
+                                <td>${res.user.entitledLeaveDaysAnnual}</td>
+                                <td>${res.user.entitledLeaveDaysMedical}</td>
+                                <td>${res.user.entitledLeaveDaysCasual}</td>
+                                <td>${res.user.entitledLeaveDaysAnnual + res.user.entitledLeaveDaysMedical + res.user.entitledLeaveDaysCasual}</td>
+                            </tr>
+                            <tr>
+                                <td>Utilized</td>
+                                <td>${res.user.entitledLeaveDaysAnnual - res.user.remainingLeaveDaysAnnual}</td>
+                                <td>${res.user.entitledLeaveDaysMedical - res.user.remainingLeaveDaysMedical}</td>
+                                <td>${res.user.entitledLeaveDaysCasual - res.user.remainingLeaveDaysCasual}</td>
+                                <td>${res.user.entitledLeaveDaysAnnual + res.user.entitledLeaveDaysMedical + res.user.entitledLeaveDaysCasual - res.user.remainingLeaveDaysAnnual - res.user.remainingLeaveDaysMedical - res.user.remainingLeaveDaysCasual}</td>
+                            </tr>
+                            <tr>
+                                <td>Balance</td>
+                                <td>${res.user.remainingLeaveDaysAnnual}</td>
+                                <td>${res.user.remainingLeaveDaysMedical}</td>
+                                <td>${res.user.remainingLeaveDaysCasual}</td>
+                                <td>${res.user.remainingLeaveDaysAnnual + res.user.remainingLeaveDaysMedical + res.user.remainingLeaveDaysCasual}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="section comment">
+                    <p>Comment: ${res.comment ?? "-"}</p>
+                </div>
+                <div class="section signature">
+                    <p>${res.approvedBy.nameInitials}</p>
+                    <p>(${res.approvedBy.class})</p>
+                    <hr style="margin: 10px 0;">
+                    <p>Approved By</p>
+                </div>
+            </div>`;
+        }
+
+        function toPdf() {
+            const contentEl = document.getElementById("content");
+
+            html2pdf().set({
+                margin: 0,
+                filename: `leave_submission.pdf`,
+                image: { type: "jpeg", quality: 1 },
+                jsPDF: { format: "a4", orientation: "portrait" },
+                html2canvas: {
+                    scale: 4,
+                    dpi: 300,
+                    letterRendering: true
+                }
+            }).from(contentEl).save();
+        }
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

@@ -1,0 +1,385 @@
+{
+  "language_select": {
+    "title": {
+      "english": "Language",
+      "sinhala": "භාෂාව",
+      "tamil": "மொழி"
+    },
+    "subtitle": {
+      "english": "Choose Your Preferred language.",
+      "sinhala": "ඔබ කැමති භාෂාව තෝරන්න.",
+      "tamil": "உங்களுக்கு விருப்பமான மொழியைத் தேர்ந்தெடுக்கவும்."
+    },
+    "buttons": {
+      "next": {
+        "english": "NEXT",
+        "sinhala": "ඊළඟ",
+        "tamil": "அடுத்தது"
+      }
+    }
+  },
+  "service_introduction": {
+    "buttons": {
+      "next": {
+        "english": "NEXT",
+        "sinhala": "ඊළඟ",
+        "tamil": "அடுத்தது"
+      }
+    }
+  },
+  "mobile_number": {
+    "title": {
+      "english": "Mobile Number",
+      "sinhala": "දුරකථන අංකය",
+      "tamil": "கைபேசி எண்"
+    },
+    "subtitle": {
+      "english": "We will send a verification code to this number.",
+      "sinhala": "අපි මෙම අංකයට සත්\u200Dයාපන කේතයක් එවන්නෙමු.",
+      "tamil": "இந்த எண்ணுக்கு சரிபார்ப்புக் குறியீட்டை அனுப்புவோம்."
+    },
+    "form": {
+      "mobile_text_field": {
+        "english": "Mobile Number",
+        "sinhala": "දුරකථන අංකය",
+        "tamil": "கைபேசி எண்",
+        "error_msg": {
+          "english": "Please Enter Mobile Number.",
+          "sinhala": "කරුණාකර ජංගම දුරකථන අංකය ඇතුලත් කරන්න.",
+          "tamil": "மொபைல் எண்ணை உள்ளிடவும்."
+        },
+        "invalid_msg": {
+          "english": "Please Enter valid Mobile Number (Ex: 7XXXXXXXX).",
+          "sinhala": "කරුණාකර වලංගු ජංගම දුරකථන අංකය ඇතුළත් කරන්න (උදා: 7XXXXXXXX).",
+          "tamil": "செல்லுபடியாகும் மொபைல் எண்ணை உள்ளிடவும் (எ.கா: 7XXXXXXXX)."
+        }
+      },
+      "agree_check": {
+        "error_msg": {
+          "english": "You must agree to our privacy policy and terms of services.",
+          "sinhala": "ඔබ අපගේ රහස්\u200Dයතා ප්\u200Dරතිපත්ති සහ සේවා කොන්දේසි වලට එකඟ විය යුතුය.",
+          "tamil": "எங்கள் தனியுரிமைக் கொள்கை மற்றும் சேவை விதிமுறைகளை நீங்கள் ஏற்க வேண்டும்."
+        }
+      }
+    },
+    "buttons": {
+      "next": {
+        "english": "NEXT",
+        "sinhala": "ඊළඟ",
+        "tamil": "அடுத்தது"
+      }
+    }
+  },
+  "mobile_number_verification": {
+    "title": {
+      "english": "Verification Code",
+      "sinhala": "සත්\u200Dයාපන කේතය",
+      "tamil": "சரிபார்ப்பு குறியீடு"
+    },
+    "subtitle": {
+      "english": "Enter the 6-digit code we've sent to +94 7XXXXXXX.",
+      "sinhala": "අපි +94 7XXXXXXX වෙත යවා ඇති ඉලක්කම්-6 කේතය ඇතුළත් කරන්න.",
+      "tamil": "+94 7XXXXXXXக்கு நாங்கள் அனுப்பிய 6 இலக்கக் குறியீட்டை உள்ளிடவும்."
+    },
+    "buttons": {
+      "clear": {
+        "english": "Clear",
+        "sinhala": "මකන්න",
+        "tamil": "அழிக்கவும்"
+      },
+      "get_otp": {
+        "english": "Get OTP",
+        "sinhala": "OTP ලබා ගන්න",
+        "tamil": "OTP பெறவும்"
+      },
+      "next": {
+        "english": "NEXT",
+        "sinhala": "ඊළඟ",
+        "tamil": "அடுத்தது"
+      }
+    }
+  },
+  "customer_details": {
+    "title": {
+      "english": "Enter Your Details",
+      "sinhala": "ඔබගේ විස්තර ඇතුලත් කරන්න",
+      "tamil": "உங்கள் விவரங்களை உள்ளிடவும்"
+    },
+    "subtitle": {
+      "english": "This is for verification purposes.",
+      "sinhala": "මෙය සත්\u200Dයාපනය කිරීමේ අරමුණු සඳහා ය.",
+      "tamil": "இது சரிபார்ப்பு நோக்கங்களுக்காக."
+    },
+    "form": {
+      "name_text_field": {
+        "english": "Full Name",
+        "sinhala": "සම්පූර්ණ නම",
+        "tamil": "முழு பெயர்",
+        "error_msg": {
+          "english": "Please Enter Your Full Name.",
+          "sinhala": "කරුණාකර ඔබගේ සම්පූර්ණ නම ඇතුලත් කරන්න.",
+          "tamil": "தயவுசெய்து உங்கள் முழு பெயரையும் பதிவுசெய்யவும்."
+        }
+      },
+      "nic_text_field": {
+        "english": "National Identity Card Number",
+        "sinhala": "ජාතික හැඳුනුම්පත් අංකය",
+        "tamil": "தேசிய அடையாள அட்டை எண்",
+        "error_msg": {
+          "english": "Please Enter Your NIC Number.",
+          "sinhala": "කරුණාකර ඔබගේ ජාතික හැඳුනුම්පත් අංකය ඇතුලත් කරන්න.",
+          "tamil": "உங்கள் NIC எண்ணை உள்ளிடவும்."
+        },
+        "invalid_msg": {
+          "english": "Please Enter Valid NIC Number (Ex: XXXXXXXXXv / XXXXXXXXXV / XXXXXXXXXXXX).",
+          "sinhala": "කරුණාකර වලංගු ජාතික හැඳුනුම්පත් අංකය ඇතුළත් කරන්න (උදා: XXXXXXXXXv / XXXXXXXXXV / XXXXXXXXXXXX).",
+          "tamil": "சரியான NIC எண்ணை உள்ளிடவும் (எ.கா: XXXXXXXXXv / XXXXXXXXXV / XXXXXXXXXXXX)."
+        }
+      },
+      "salary_range_radio": {
+        "topic": {
+          "english": "Salary Range",
+          "sinhala": "වැටුප් පරාසය",
+          "tamil": "ஊதிய வீதம்"
+        },
+        "types": [
+          {
+            "english": "Rs. 200k - 300k",
+            "sinhala": "රු. 200k - 300k",
+            "tamil": "ரூ. 200k - 300k"
+          },
+          {
+            "english": "Rs. 300k - 400k",
+            "sinhala": "රු. 300k - 400k",
+            "tamil": "ரூ. 300k - 400k"
+          },
+          {
+            "english": "Above Rs. 400k",
+            "sinhala": "රු. 400k ට වැඩි",
+            "tamil": "ரூ. 400kக்கு மேல்"
+          }
+        ],
+        "error_msg": {
+          "english": "Please Select a Salary Range.",
+          "sinhala": "කරුණාකර වැටුප් පරාසයක් තෝරන්න.",
+          "tamil": "சம்பள வரம்பைத் தேர்ந்தெடுக்கவும்."
+        }
+      }
+    },
+    "buttons": {
+      "next": {
+        "english": "SUBMIT",
+        "sinhala": "ඉදිරිපත් කරන්න",
+        "tamil": "சமர்ப்பிக்க"
+      }
+    }
+  },
+  "thank_you": {
+    "title": {
+      "english": "Thank You!",
+      "sinhala": "ස්තූතියි!",
+      "tamil": "நன்றி!"
+    },
+    "subtitle": {
+      "english": "Your Submission has been sent.",
+      "sinhala": "ඔබගේ ඉදිරිපත් කිරීම යවා ඇත.",
+      "tamil": "உங்கள் சமர்ப்பிப்பு அனுப்பப்பட்டது."
+    }
+  },
+  "mobile_login": {
+    "title": {
+      "english": "Welcome!",
+      "sinhala": "සාදරයෙන් පිළිගනිමු!",
+      "tamil": "வரவேற்பு!"
+    },
+    "subtitle": {
+      "english": "Hi there! Nice to see you again.",
+      "sinhala": "ආයුබෝවන්! ඔබව නැවත දැකීම සතුටක්.",
+      "tamil": "வணக்கம்! உன்னை மீண்டும் சந்திப்பதில் மகிழ்கிறேன்."
+    },
+    "form": {
+      "mobile_text_field": {
+        "english": "Mobile Number",
+        "sinhala": "දුරකථන අංකය",
+        "tamil": "கைபேசி எண்",
+        "error_msg": {
+          "english": "Please Enter Mobile Number.",
+          "sinhala": "කරුණාකර ජංගම දුරකථන අංකය ඇතුලත් කරන්න.",
+          "tamil": "மொபைல் எண்ணை உள்ளிடவும்."
+        },
+        "invalid_msg": {
+          "english": "Please Enter valid Mobile Number (Ex: 7XXXXXXXX).",
+          "sinhala": "කරුණාකර වලංගු ජංගම දුරකථන අංකය ඇතුළත් කරන්න (උදා: 7XXXXXXXX).",
+          "tamil": "செல்லுபடியாகும் மொபைல் எண்ணை உள்ளிடவும் (எ.கா: 7XXXXXXXX)."
+        }
+      }
+    },
+    "buttons": {
+      "next": {
+        "english": "PROCEED",
+        "sinhala": "ඉදිරියට යන්න",
+        "tamil": "தொடரவும்"
+      }
+    }
+  },
+  "request_form": {
+    "title": {
+      "english": "Request Form",
+      "sinhala": "ඉල්ලුම් පත්\u200Dරය\n",
+      "tamil": "வேண்டுதல் படிவம்"
+    },
+    "form": {
+      "address_text_field": {
+        "english": "Permanent Address",
+        "sinhala": "ස්ථීර ලිපිනය",
+        "tamil": "நிரந்தர முகவரி",
+        "error_msg": {
+          "english": "Please Enter Your Address.",
+          "sinhala": "කරුණාකර ඔබගේ ලිපිනය ඇතුලත් කරන්න.",
+          "tamil": "தயவுசெய்து உங்கள் முகவரியை உள்ளிடவும்."
+        },
+        "invalid_msg": {
+          "english": "Address must be greater than 10 characters.",
+          "sinhala": "ලිපිනය අක්ෂර 10 ට වඩා වැඩි විය යුතුය.",
+          "tamil": "முகவரி 10 எழுத்துகளுக்கு மேல் இருக்க வேண்டும்."
+        }
+      },
+      "employer_text_field": {
+        "english": "Employer",
+        "sinhala": "සේවායෝජකයා",
+        "tamil": "முதலாளி",
+        "error_msg": {
+          "english": "Please Name Your Employer.",
+          "sinhala": "කරුණාකර ඔබේ සේවායෝජකයා නම් කරන්න.",
+          "tamil": "தயவு செய்து உங்கள் வேலையளிப்பவருக்கு பெயரிடுங்கள்."
+        }
+      },
+      "salary_text_field": {
+        "english": "Monthly Salary",
+        "sinhala": "මාසික වැටුප",
+        "tamil": "மாத சம்பளம்",
+        "error_msg": {
+          "english": "Please Enter Your Monthly Salary.",
+          "sinhala": "කරුණාකර ඔබගේ මාසික වැටුප ඇතුලත් කරන්න.",
+          "tamil": "உங்கள் மாதாந்திர சம்பளத்தை உள்ளிடவும்."
+        },
+        "type_error_msg": {
+          "english": "Please Enter only numbers.",
+          "sinhala": "කරුණාකර අංක පමණක් ඇතුළත් කරන්න.",
+          "tamil": "எண்களை மட்டும் உள்ளிடவும்."
+        },
+        "decimal_digits_error_msg": {
+          "english": "number field must have 2 digits after decimal.",
+          "sinhala": "සංඛ්\u200Dයා ක්ෂේත්\u200Dරයේ දශමයෙන් පසු ඉලක්කම් 2ක් තිබිය යුතුය.",
+          "tamil": "எண் புலத்தில் தசமத்திற்குப் பிறகு 2 இலக்கங்கள் இருக்க வேண்டும்."
+        }
+      },
+      "employment_type_radio": {
+        "topic": {
+          "english": "Employment Type",
+          "sinhala": "රැකියා වර්ගය",
+          "tamil": "வேலைவாய்ப்பு வகை"
+        },
+        "types": [
+          {
+            "english": "Self Employed",
+            "sinhala": "ස්වයං රැකියාවක නියුක්ත",
+            "tamil": "சுயதொழில்"
+          },
+          {
+            "english": "Permanent Job",
+            "sinhala": "ස්ථිර රැකියාවක්",
+            "tamil": "நிரந்தர வேலை"
+          },
+          {
+            "english": "Contract Based",
+            "sinhala": "කොන්ත්රාත්තුව පදනම් කරගත්",
+            "tamil": "ஒப்பந்த அடிப்படையில்"
+          }
+        ],
+        "error_msg": {
+          "english": "Please Select your Employee Type.",
+          "sinhala": "කරුණාකර ඔබේ සේවක වර්ගය තෝරන්න.",
+          "tamil": "உங்கள் பணியாளர் வகையைத் தேர்ந்தெடுக்கவும்."
+        }
+      },
+      "salary_slip_file": {
+        "english": "Last Month's Salary Slip",
+        "sinhala": "පසුගිය මාසයේ වැටුප් පත්\u200Dරිකාව",
+        "tamil": "போன மாத சம்பள சீட்டு",
+        "error_msg": {
+          "english": "Please Upload Your Salary Slip.",
+          "sinhala": "කරුණාකර ඔබේ වැටුප් පත්\u200Dරිකාව උඩුගත කරන්න.",
+          "tamil": "உங்கள் சம்பள சீட்டை பதிவேற்றவும்."
+        },
+        "file_size_msg": {
+          "english": "The size of uploaded files exceeds the maximum limit of 2MB.",
+          "sinhala": "උඩුගත කළ ගොනු වල ප්\u200Dරමාණය උපරිම සීමාව වන 2MB ඉක්මවයි.",
+          "tamil": "பதிவேற்றிய கோப்புகளின் அளவு அதிகபட்ச வரம்பான 2MB ஐ விட அதிகமாக உள்ளது."
+        },
+        "file_format_msg": {
+          "english": "Only .pdf, .png, .jpeg and .jpg files are allowed.",
+          "sinhala": ".pdf, .png, .jpeg සහ .jpg ගොනු වලට පමණක් අවසර ඇත.",
+          "tamil": ".pdf, .png, .jpeg மற்றும் .jpg கோப்புகள் மட்டுமே அனுமதிக்கப்படும்."
+        }
+      },
+      "nic_file": {
+        "english": "Photo of NIC (Both Sides)",
+        "sinhala": "ජාතික හැඳුනුම්පතේ ඡායාරූපය (දෙපස)",
+        "tamil": "NIC இன் புகைப்படம் (இருபுறமும்)",
+        "error_msg": {
+          "english": "Please Upload The Photos of Your NIC.",
+          "sinhala": "කරුණාකර ඔබගේ ජාතික හැඳුනුම්පතේ ඡායාරූප උඩුගත කරන්න.",
+          "tamil": "உங்கள் என்ஐசியின் புகைப்படங்களைப் பதிவேற்றவும்."
+        },
+        "file_size_msg": {
+          "english": "The size of uploaded files exceeds the maximum limit of 2MB.",
+          "sinhala": "උඩුගත කළ ගොනු වල ප්\u200Dරමාණය උපරිම සීමාව වන 2MB ඉක්මවයි.",
+          "tamil": "பதிவேற்றிய கோப்புகளின் அளவு அதிகபட்ச வரம்பான 2MB ஐ விட அதிகமாக உள்ளது."
+        },
+        "file_format_msg": {
+          "english": "Only .pdf, .png, .jpeg and .jpg files are allowed.",
+          "sinhala": ".pdf, .png, .jpeg සහ .jpg ගොනු වලට පමණක් අවසර ඇත.",
+          "tamil": ".pdf, .png, .jpeg மற்றும் .jpg கோப்புகள் மட்டுமே அனுமதிக்கப்படும்."
+        }
+      },
+      "billing_proof_file": {
+        "english": "Billing Proof (Ex : Electricity Bill / Water Bill / Election Paper / Letter from Gramasewaka Officer)",
+        "sinhala": "බිල්පත් සාධනය (උදා: විදුලි බිල්පත් / ජල බිල්පත් / මැතිවරණ පත්\u200Dරිකාව / ග්\u200Dරාමසේවක නිලධාරියාගේ ලිපිය)",
+        "tamil": "பில்லிங் ஆதாரம் (எ.கா: மின்சார பில் / தண்ணீர் பில் / தேர்தல் தாள் / கிராமசேவக அதிகாரியின் கடிதம்)",
+        "error_msg": {
+          "english": "Please Upload Your Billing Proof.",
+          "sinhala": "කරුණාකර ඔබගේ බිල්පත් සාධනය උඩුගත කරන්න.",
+          "tamil": "உங்கள் பில்லிங் ஆதாரத்தை பதிவேற்றவும்."
+        },
+        "file_size_msg": {
+          "english": "The size of uploaded files exceeds the maximum limit of 2MB.",
+          "sinhala": "උඩුගත කළ ගොනු වල ප්\u200Dරමාණය උපරිම සීමාව වන 2MB ඉක්මවයි.",
+          "tamil": "பதிவேற்றிய கோப்புகளின் அளவு அதிகபட்ச வரம்பான 2MB ஐ விட அதிகமாக உள்ளது."
+        },
+        "file_format_msg": {
+          "english": "Only .pdf, .png, .jpeg and .jpg files are allowed.",
+          "sinhala": ".pdf, .png, .jpeg සහ .jpg ගොනු වලට පමණක් අවසර ඇත.",
+          "tamil": ".pdf, .png, .jpeg மற்றும் .jpg கோப்புகள் மட்டுமே அனுமதிக்கப்படும்."
+        }
+      },
+      "confirm_check": {
+        "english": "I hereby confirm that the information provided is true.",
+        "sinhala": "සපයා ඇති තොරතුරු සත්\u200Dය බව මෙයින් තහවුරු කරමි.",
+        "tamil": "வழங்கப்பட்ட தகவல் உண்மை என்பதை இதன் மூலம் உறுதி செய்கிறேன்.",
+        "error_msg": {
+          "english": "You must confirm this.",
+          "sinhala": "ඔබ මෙය තහවුරු කළ යුතුය.",
+          "tamil": "நீங்கள் இதை உறுதிப்படுத்த வேண்டும்."
+        }
+      }
+    },
+    "buttons": {
+      "next": {
+        "english": "SUBMIT",
+        "sinhala": "ඉදිරිපත් කරන්න",
+        "tamil": "சமர்ப்பிக்க"
+      }
+    }
+  }
+}

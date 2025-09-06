@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Leave Submission Form</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap" rel="stylesheet">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <style type="text/css">
+        :root {
+            --invoice-primary-color: rgb(10, 117, 173);
+            --invoice-first-color: #58595b;
+            --invoice-white-color: #e6e7e8;
+            --invoice-bg-color: rgb(243, 243, 243)
+        }
+
+        * {
+            font-family: "Roboto", sans-serif;
+            margin: unset;
+            padding: unset;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+        }
+
+        .invoiceLayout {
+            position: relative;
+            width: 210mm;
+            height: 297mm;
+            /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+            padding: 40px;
+            word-wrap: break-word;
+            line-height: 1.2rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--invoice-first-color);
+        }
+
+        .invoice-body {
+            width: 100%;
+            height: 236mm;
+        }
+
+        .invoice-header {
+            width: 100%;
+            padding: 10px 10px 0 10px;
+            border-bottom: 0.15rem solid var(--invoice-first-color);
+        }
+
+        .invoice-header .logo {
+            height: 94px;
+        }
+
+        .invoice-header .invoice-no-title {
+            display: flex;
+            justify-content: right;
+            font-size: 1.9rem;
+            font-weight: 500;
+            color: var(--invoice-primary-color);
+            line-height: 1.6rem;
+            padding-bottom: 0.2rem;
+        }
+
+        .invoice-header .invoice-no {
+            font-size: 1.9rem;
+            font-weight: 500;
+            line-height: 1.6rem;
+            padding-bottom: 0.2rem;
+        }
+
+        .receiver-head {
+            margin-top: 15px;
+        }
+
+        .receiver-head .to-details {
+            display: inline-block;
+            align-self: flex-end;
+        }
+
+        .receiver-head .receiver-address {
+            text-align: left;
+        }
+
+        .receiver-head .vehicle-details {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 15px;
+            background-color: var(--invoice-white-color);
+            line-height: 1.5rem;
+        }
+
+        .receiver-head .vehicle-details [class*="row"],
+        .receiver-head .vehicle-details [class*="col-"] {
+            padding: 0;
+            margin: 0;
+        }
+
+        .receiver-head .vehicle-details .part-2 {
+            border-left: 0.15rem solid var(--invoice-bg-color);
+            height: 100%;
+            padding-left: 0.5rem;
+        }
+
+        /* TABLE STYLING */
+        .invoice-table {
+            width: 100%;
+            margin-top: 30px;
+            padding: 0;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        .invoice-table thead {
+            visibility: visible;
+        }
+
+        .invoice-table tr {
+            display: table-row;
+            margin-bottom: 0;
+            padding: 5px;
+        }
+
+        .invoice-table tr:hover {
+            background-color: var(--invoice-bg-color);
+        }
+
+        .invoice-table th {
+            background-color: var(--invoice-primary-color);
+            color: var(--invoice-white-color);
+            padding: 10px 10px;
+        }
+
+        .invoice-table td:before {
+            content: "";
+            display: none;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .invoice-table td {
+            display: table-cell;
+            border-bottom: none;
+            padding: 10px 10px;
+        }
+
+        .invoiceSummary {
+            display: flex;
+            justify-content: end;
+        }
+
+        .invoiceSummary .summaryItem {
+            padding: 10px 10px 2px 10px;
+        }
+
+        .item-desc-workshop {
+            max-width: 40vw;
+            word-wrap: break-word;
+        }
+
+        .item-desc-spare-parts {
+            max-width: 20vw;
+            word-wrap: break-word;
+        }
+
+        .remarks {
+            margin-top: 20px;
+            text-align: justify;
+            display: flex;
+            justify-content: center;
+        }
+
+        .remarks .signature-box .signature-area {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 0.1rem solid var(--invoice-first-color);
+            text-align: center;
+        }
+
+        .invoice-footer {
+            position: absolute;
+            width: 93%;
+            bottom: 0;
+            opacity: 0.5;
+        }
+
+        @media only screen and (max-width: 576px) {
+
+            .invoiceLayout {
+                line-height: 1rem;
+                padding: 30px;
+            }
+
+            .invoice-header {
+                padding: 0;
+            }
+
+            .invoice-header p {
+                font-size: 0.8rem;
+            }
+
+            .invoice-header .invoice-no-title {
+                font-size: 1.5rem;
+                line-height: 1.3rem;
+            }
+
+            .invoice-header .invoice-no {
+                font-size: 1.4rem;
+                line-height: 1.3rem;
+            }
+
+            .invoice-header .logo {
+                height: 40px;
+            }
+
+            .receiver-head .receiver-title,
+            .receiver-head .receiver-address {
+                text-align: center;
+            }
+
+            .receiver-head .vehicle-details .part-2 {
+                border-left: none;
+                padding-left: 0;
+            }
+
+            .invoice-table thead {
+                visibility: hidden;
+            }
+
+            .invoice-table th {
+                display: none;
+            }
+
+            .invoice-table tr {
+                border-bottom: 1px solid #ddd;
+                margin-bottom: none;
+                display: block;
+            }
+
+            .invoice-table td:before {
+                display: table-cell;
+                content: attr(data-label);
+                float: left;
+                text-transform: uppercase;
+                font-weight: bold;
+            }
+
+            .invoice-table td {
+                display: block;
+                text-align: right;
+                font-size: 13px;
+                border-bottom: 1px dotted #ddd;
+            }
+
+            .invoice-table td:last-child {
+                border-bottom: none;
+            }
+
+            .invoiceSummary {
+                display: flex;
+                justify-content: start;
+            }
+
+            .item-desc-workshop,
+            .item-desc-spare-parts {
+                max-width: 95vw;
+                width: 100%;
+            }
+        }
+
+        @media print {
+            .page-break {
+                display: block;
+                page-break-before: always;
+            }
+        }
+
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            .invoiceLayout {
+                box-shadow: none;
+                margin: 0;
+                width: auto;
+                height: auto;
+            }
+
+            .noprint {
+                display: none;
+            }
+
+            .enable-print {
+                display: block;
+            }
+        }
+    </style>
+
+    <script>
+        function addScript(url) {
+            var script = document.createElement('script');
+            script.type = 'application/javascript';
+            script.src = url;
+            document.head.appendChild(script);
+        }
+        addScript('https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js');
+
+        function generateContent(data) {
+            document.body.innerHTML = `
+            <div class="row" id="content">
+                <div class="col-12">
+                    <div id="a4-1" class="invoiceLayout">
+                        <div class="container-fluid invoice-header">
+                            <div class="row">
+                                <div class="col-4">
+                                    <img alt="Logo" class="logo" src="./stafford_logo.png" />
+                                    <p></p>
+                                </div>
+                                <div class="col-8 text-end">
+                                    <div class="invoice-no-title">
+                                        LEAVE REQUEST
+                                    </div>
+                                    <p>
+                                        ${(new Date(data.createdAt).toLocaleDateString('en-us', optionsHeader))}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="invoice-body">
+                            <div class="row receiver-head">
+                                <div class="col-sm-12">
+                                    <div class="vehicle-details">
+                                        <div class="row" style="padding-bottom: 10px;">
+                                            <div class="col-12 part-1">
+                                                <div class="row">
+                                                    <div class="col-4">Name with Initial:</div>
+                                                    <div class="col-8">
+                                                        ${(data?.user?.nameInitials || "")}
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-4">Employee No:</div>
+                                                    <div class="col-8">
+                                                        ${(data?.user?.employeeNumber || "")}
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-4">Designation:</div>
+                                                    <div class="col-8">
+                                                        ${(data?.user?.designation || "")}
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-4">Division:</div>
+                                                    <div class="col-8">
+                                                        ${(data?.division?.name || "")}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tb-container">
+                                <table class="invoice-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-start">
+                                                <b>Date</b>
+                                            </th>
+                                            <th class="text-end">
+                                                <b>Period</b>
+                                            </th>
+                                            <th class="text-end">
+                                                <b>Type</b>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="background-color: var(--invoice-white-color)">
+                                            <td class="text-start" data-label="Description of Supply">
+                                                <span>
+                                                    ${(new Date(data?.year, data?.month, data?.day).toLocaleDateString('en-us', optionsLeaveReqDate))}
+                                                </span>
+                                            </td>
+                                            <td class="text-end" data-label="Quantity">
+                                                <span>
+                                                    ${(data?.period.toLowerCase()
+                                                            .replace(/_/g, ' ')
+                                                            .replace(/\b\w/g, c => c.toUpperCase()) || "")}
+                                                </span>
+                                            </td>
+                                            <td class="text-end" data-label="Amount(LKR)">
+                                                <span>
+                                                    ${(data?.type.toLowerCase()
+                                                            .replace(/_/g, ' ')
+                                                            .replace(/\b\w/g, c => c.toUpperCase()) || "")}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="row invoiceSummary">
+                                <div class="col-11">
+                                    <div class="row summaryItem">
+                                        <div class="col-2">
+                                            <b>REASON:</b>
+                                        </div>
+                                        <div class="col-10">
+                                            ${document.write(data?.description || "-")}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="tb-container-1" class="tb-container">
+                                <table id="table-1" class="invoice-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-start">
+                                                <b>Description</b>
+                                            </th>
+                                            <th class="text-end">
+                                                <b>Annual</b>
+                                            </th>
+                                            <th class="text-end">
+                                                <b>Medical</b>
+                                            </th>
+                                            <th class="text-end">
+                                                <b>Casual</b>
+                                            </th>
+                                            <th class="text-end">
+                                                <b>Total</b>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="background-color: var(--invoice-white-color)">
+                                            <td class="text-start" data-label="Description of Supply">
+                                                <span>
+                                                    Leave Eligible
+                                                </span>
+                                            </td>
+                                            <td class="text-end" data-label="Annual">
+                                                <span>
+                                                    ${(data?.user?.entitledLeaveDaysAnnual)}
+                                                </span>
+                                            </td>
+                                            <td class="text-end" data-label="Medical">
+                                                <span>
+                                                    ${(data?.user?.entitledLeaveDaysMedical)}
+                                                </span>
+                                            </td>
+                                            <td class="text-end" data-label="Casual">
+                                                <span>
+                                                    ${(data?.user?.entitledLeaveDaysCasual)}
+                                                </span>
+                                            </td>
+                                            <td class="text-end" data-label="Total">
+                                                <span>
+                                                    ${(data?.user?.entitledLeaveDaysAnnual + data?.user?.entitledLeaveDaysMedical + data?.user?.entitledLeaveDaysCasual)}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-start" data-label="Description of Supply">
+                                                <span>
+                                                    Utilized
+                                                </span>
+                                            </td>
+                                            <td class="text-end" data-label="Annual">
+                                                <span>
+                                                    ${(data?.type == "ANNUAL" ? isOneDayPeriod : 0)}
+                                                </span>
+                                            </td>
+                                            <td class="text-end" data-label="Medical">
+                                                <span>
+                                                    ${(data?.type == "MEDICAL" ? isOneDayPeriod : 0)}
+                                                </span>
+                                            </td>
+                                            <td class="text-end" data-label="Casual">
+                                                <span>
+                                                   ${(data?.type == "CASUAL" ? isOneDayPeriod : 0)}
+                                                </span>
+                                            </td>
+                                            <td class="text-end" data-label="Total">
+                                                <span>
+                                                    ${((data?.type == "ANNUAL" ? isOneDayPeriod : 0) + (data?.type == "MEDICAL" ? isOneDayPeriod : 0) + (data?.type == "CASUAL" ? isOneDayPeriod : 0))}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: var(--invoice-white-color)">
+                                            <td class="text-start" data-label="Description of Supply">
+                                                <span>
+                                                    Balance
+                                                </span>
+                                            </td>
+                                            <td class="text-end" data-label="Annual">
+                                                <span>
+                                                    ${(data?.user?.remainingLeaveDaysAnnual)}
+                                                </span>
+                                            </td>
+                                            <td class="text-end" data-label="Medical">
+                                                <span>
+                                                    ${(data?.user?.remainingLeaveDaysMedical)}
+                                                </span>
+                                            </td>
+                                            <td class="text-end" data-label="Casual">
+                                                <span>
+                                                    ${(data?.user?.remainingLeaveDaysCasual)}
+                                                </span>
+                                            </td>
+                                            <td class="text-end" data-label="Total">
+                                                <span>
+                                                    ${(data?.user?.remainingLeaveDaysAnnual + data?.user?.remainingLeaveDaysMedical + data?.user?.remainingLeaveDaysCasual)}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row remarks">
+                                <div class="col-sm-12">
+                                    Comment:
+                                    ${(data?.comment || "").replace(/(?:\r\n|\r|\n|\\r\\n)/g, '<br>')}
+                                </div>
+                                <div class="row signature-box">
+                                    <div class="col-sm-7"></div>
+
+                                    <div class="col-sm-5">
+                                        <div style="display: flex; justify-content: center; font-family:'Caveat', cursive; font-size: large;"
+                                            class="mt-5">
+                                        </div>
+                                        <div style="display: flex; justify-content: center;">
+                                        </div>
+                                        <div class="signature-area">
+                                            Approved By
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="footer-1" class="row invoice-footer">
+
+                        </div>
+                    </div>
+                </div> 
+            </div>`;
+        }
+
+        function toPdf() {
+            const contentEl = document.getElementById("content");
+            // contentEl.scrollIntoView({
+            //     behavior: "instant",
+            //     block: "start",
+            //     inline: "start"
+            // });
+
+            html2pdf().set({
+                margin: 0,
+                filename: "myfile.pdf",
+                image: { type: "jpeg", quality: 1 },
+                jsPDF: { format: "a4", orientation: "portrait" },
+                html2canvas: {
+                    scale: 4,
+                    dpi: 300,
+                    letterRendering: true
+                }
+            }).from(contentEl).save();
+        }
+
+    </script>
+
+</head>
+<body>
+</body>
+
+</html>

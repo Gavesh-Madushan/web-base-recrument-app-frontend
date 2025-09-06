@@ -1,0 +1,12 @@
+version: "1.1"
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - D:\AdeonaTechnologies\Seylan Bank\Seylan-User\seylan-user-app\src:/app/src
+    ports:
+      - 3005:3000
+    environment:
+      - WATCHPACK_POLLING=true
