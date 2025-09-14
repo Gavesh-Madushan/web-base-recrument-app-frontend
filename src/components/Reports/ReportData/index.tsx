@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { applyGlobalValidations, convert_to_proper_case } from "../../../utils/utils";
 import { isMobile } from "react-device-detect";
 // custom components
@@ -30,6 +30,8 @@ import SortedCandidateList from "./sortList";
 
 function ReportData(props: { access: string }) {
   const theme: any = useTheme();
+  const { state } = useLocation();
+  console.log(state);
   const navigate = useNavigate();
   const matchDownmd = useMediaQuery(theme.breakpoints.up("md"));
   const formikRef: any = useRef(null);
@@ -43,30 +45,7 @@ function ReportData(props: { access: string }) {
     empClass: "ALL",
   });
 
-  const listDivision = useQuery({
-    queryKey: ["listDivisions", undefined, 0, 50],
-    queryFn: () => getDivisionList(undefined, 0, 50),
-    select: (res) =>
-      res.data.data.map((item) => ({
-        value: item.id,
-        label: item.name,
-      })),
-  });
-
-  const listEmployeeClass = useQuery({
-    queryKey: ["listEmployeeDesignations"],
-    queryFn: () => getEmployeeDesignationList(),
-    select: (res) =>
-      res.data.map((item) => ({
-        value: item,
-        label: convert_to_proper_case(item),
-      })),
-  });
-
-  const downloadItems = useMutation({
-    mutationKey: ["/users/_download"],
-    mutationFn: downloadUserList,
-  });
+  const listDivision = () => {};
 
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
@@ -90,25 +69,6 @@ function ReportData(props: { access: string }) {
     window.scrollTo(0, 0);
     setTabValue(0);
   }, [matchDownmd]);
-
-  //   const dialog = useMemo(
-  //     () =>
-  //       ViewEditDialog(EmployeeReport)({
-  //         open: open,
-  //         setOpen: setOpen,
-  //         dialogTitle: "Employee Report",
-  //         initialItem: {},
-  //         initialData: {
-  //           ...search,
-  //           divisionList: props.role === 3 || props.role === 1 ? [{ value: 0, label: "All" }, ...(listDivision.data || [])] : listDivision.data,
-  //           tabValue: tabValue,
-  //         },
-  //         fetchData: downloadItems,
-  //         theme: theme,
-  //         maxWidth: "sm",
-  //       }),
-  //     [open]
-  //   );
 
   return (
     <Grid container justifyContent="center" spacing={gridSpacing}>
@@ -138,11 +98,6 @@ function ReportData(props: { access: string }) {
             {({ isValid }) => (
               <Form>
                 <Grid container columnSpacing={1} justifyContent={"flex-end"}>
-                  {!matchDownmd && listDivision.isFetched && (
-                    <Grid item xl={3} lg={3} md={3} sm={4} xs={12}>
-                      <SelectWrapper label={"Division"} name="division" options={[]} customHandleChange={() => {}} />
-                    </Grid>
-                  )}
                   <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
                     <TextFieldWrapper
                       label="Search"
@@ -179,6 +134,9 @@ function ReportData(props: { access: string }) {
             ))}
           </Tabs>
           <TabPanel value={tabValue} index={0} key={0}>
+            <SortedCandidateList access={props.access} />
+          </TabPanel>
+          <TabPanel value={tabValue} index={1} key={1}>
             <SortedCandidateList access={props.access} />
           </TabPanel>
         </Grid>

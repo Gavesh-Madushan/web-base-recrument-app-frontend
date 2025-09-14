@@ -9,7 +9,7 @@ import employee from "./employee";
 
 const menuItems = {
   // items: [dashboard, projects, staff, employee],
-  items: [dashboard, projects],
+  items: [dashboard, projects, employee, configurations],
 };
 
 export default menuItems;

@@ -2,134 +2,42 @@ import * as Yup from "yup";
 import { Form, Formik } from "formik";
 import { useDispatch } from "react-redux";
 import { DataGrid } from "@mui/x-data-grid";
-import { applyGlobalValidations, formatMobile } from "../../utils/utils";
-import { useEffect, useMemo, useState } from "react";
+import { applyGlobalValidations } from "../../utils/utils";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SET_BREADCRUMBS } from "../../redux/actions/actions";
 import WorkIcon from "@mui/icons-material/Work";
-import { isMobile } from "react-device-detect";
 
 // mui
-import { Box, Button, Chip, Grid, IconButton, InputAdornment, LinearProgress, Stack, Tooltip, useMediaQuery } from "@mui/material";
+import { Box, Button, Chip, Grid, IconButton, InputAdornment, LinearProgress, Stack, Tooltip } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 // custom components
-// import CreateClient from "./ClientDetails";
-import MainCard from "../../utils/ui-components/MainCard";
 import PageHeaders from "../../utils/ui-components/PageHeaders";
-import ViewEditDialog from "../../utils/ui-components/ViewEditDialog";
 import TextFieldWrapper from "../../utils/ui-components/FormsUI/TextField";
 import EmptyResultDataGrid from "../../utils/ui-components/EmptyResultDataGrid";
 
 // mui icons
-import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
 import SearchIcon from "@mui/icons-material/Search";
-import PortraitIcon from "@mui/icons-material/Portrait";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import dayjs from "dayjs";
+import { useListJobPostings } from "../../kubb";
+import { SearchInterface, statusMap } from "../JobPosts";
+import DatePickerWrapper from "../../utils/ui-components/FormsUI/DatePicker";
 
-const statusMap = {
-  ACTIVE: { label: "Ongoing", color: "success" },
-  INACTIVE: { label: "Closed", color: "error" },
-  PENDING: { label: "Pending", color: "warning" },
-} as const;
-
-export interface ClientInterface {
-  id: number | string;
-  company_name: string;
-  company_contact: string;
-  company_address: string;
-  company_email: string;
-  contact_person: string;
-  person_mobile: string;
-  status: boolean;
-  discription: string;
-}
-
-const INITIAL_FORM_STATE: ClientInterface = {
-  id: "",
-  company_name: "",
-  company_contact: "",
-  company_address: "",
-  company_email: "",
-  contact_person: "",
-  person_mobile: "",
-  status: true,
-  discription: "",
-};
-
-function Reports(props: { access: string }) {
+function Reports() {
   const theme: any = useTheme();
   const dispatch = useDispatch();
-  const matchDownSM = useMediaQuery(theme.breakpoints.down("md"));
   const { state } = useLocation();
   const navigate = useNavigate();
 
-  const [search, setSearch] = useState(state?.search || "");
-  const [isLoading, setIsLoading] = useState(false);
-  const [jobPosts, setJobPosts] = useState<
-    {
-      id: number;
-      name: string;
-      title: string;
-      createdAt: string;
-      endAt: string;
-      sortCount: number;
-      status: "ACTIVE" | "INACTIVE";
-    }[]
-  >([
-    {
-      id: 1,
-      name: "TechNova Solutions",
-      title: "Frontend Developer",
-      createdAt: "2025-08-01T09:00:00Z",
-      endAt: "2025-09-01T17:00:00Z",
-      sortCount: 10,
-      status: "ACTIVE",
-    },
-    {
-      id: 2,
-      name: "FinEdge Pvt Ltd",
-      title: "Backend Engineer",
-      createdAt: "2025-07-25T10:30:00Z",
-      endAt: "2025-08-25T18:00:00Z",
-      sortCount: 5,
-      status: "INACTIVE",
-    },
-    {
-      id: 3,
-      name: "MediCare Systems",
-      title: "UI/UX Designer",
-      createdAt: "2025-08-10T11:15:00Z",
-      endAt: "2025-09-10T17:30:00Z",
-      sortCount: 8,
-      status: "ACTIVE",
-    },
-    {
-      id: 4,
-      name: "EduLearn Inc.",
-      title: "Full Stack Developer",
-      createdAt: "2025-07-20T08:00:00Z",
-      endAt: "2025-08-20T16:00:00Z",
-      sortCount: 2,
-      status: "INACTIVE",
-    },
-    {
-      id: 5,
-      name: "GreenTech Labs",
-      title: "Data Analyst",
-      createdAt: "2025-08-15T14:20:00Z",
-      endAt: "2025-09-15T19:00:00Z",
-      sortCount: 12,
-      status: "ACTIVE",
-    },
-  ]);
+  const [search, setSearch] = useState<SearchInterface>({
+    createdFrom: null,
+    createdTo: null,
+    name: "",
+  });
 
   const [count, setCount] = useState(0);
-  const [open, setOpen] = useState<boolean>(false);
-  const [dialogTitle, setDialogTitle] = useState("");
-  const [initialItem, setInitialItem] = useState<ClientInterface>(INITIAL_FORM_STATE);
   const [paginationModel, setPaginationModel] = useState(
     state?.paginationModel || {
       page: 0,
@@ -152,64 +60,22 @@ function Reports(props: { access: string }) {
     });
   }, []);
 
-  useEffect(() => {
-    getJobPostList(search, paginationModel);
-  }, [paginationModel, search]);
+  const listItems = useListJobPostings({
+    createdFrom: search.createdFrom ? search.createdFrom.toISOString() : undefined,
+    createdTo: search.createdTo ? search.createdTo.toISOString() : undefined,
+    pageSize: paginationModel.pageSize,
+    page: paginationModel.page,
+    location: undefined,
+    name: search.name ? search.name : undefined,
+    positionId: undefined,
+    processingState: undefined,
+    type: undefined,
+    workMode: undefined,
+  });
 
-  const getJobPostList = (searchValue: string, paginationModel: { page: number; pageSize: number }) => {
-    setIsLoading(false);
-    const values = {
-      activeState: undefined,
-      searchTerm: searchValue === "" ? undefined : searchValue,
-    };
-
-    // ProjectService.getClientList(values, paginationModel.page, paginationModel.pageSize).then((response) => {
-    //   if (response.isSuccess) {
-    //     setClients(
-    //       response.data.data.map((client) => ({
-    //         id: client.id,
-    //         company_name: client.businessName,
-    //         company_contact: client.businessPhone || "",
-    //         company_address: client.businessAddress || "",
-    //         company_email: client.businessEmail || "",
-    //         contact_person: client.personName || "",
-    //         person_mobile: client.personPhone || "",
-    //         status: client.activeState,
-    //         discription: client.description || "",
-    //       }))
-    //     );
-    //     setCount(response.data.totalCount || count);
-    //     setIsLoading(false);
-    //   } else {
-    //     setCount(0);
-    //     setClients([]);
-    //     setIsLoading(false);
-    //   }
-    // });
-  };
-
-  //   const dialog = useMemo(
-  //     () =>
-  //       ViewEditDialog(CreateClient)({
-  //         open: open,
-  //         setOpen: setOpen,
-  //         dialogTitle: dialogTitle,
-  //         initialItem: initialItem,
-  //         fetchData: () => {
-  //           getCustomerList(search, paginationModel);
-  //         },
-  //         theme: theme,
-  //         maxWidth: "sm",
-  //         initialData: {},
-  //       }),
-  //     [open]
-  //   );
-
-  const handleClickOpen = (dialogTitle: string, formState: ClientInterface) => {
-    setOpen(true);
-    setDialogTitle(dialogTitle);
-    setInitialItem(formState);
-  };
+  if (listItems.data?.totalCount && listItems.data.totalCount !== count) {
+    setCount(listItems.data.totalCount);
+  }
 
   const columns = [
     {
@@ -219,21 +85,73 @@ function Reports(props: { access: string }) {
       maxWidth: 50,
       headerClassName: "stickyActionHeader",
       cellClassName: "stickyColumn",
-      renderCell: (params: any) => (
-        <Stack direction="row" spacing={1}>
-          <Tooltip title="View">
-            <IconButton
-              aria-label="view"
-              color="primary"
-              onClick={() => {
-                navigate(`/reports/${params.row.id}`);
-              }}
-            >
-              <VisibilityIcon fontSize="inherit" color="primary" />
-            </IconButton>
-          </Tooltip>
-        </Stack>
-      ),
+      renderCell: (params: any) => {
+        const data = params.row;
+        const formData = {
+          id: data.id,
+          logoPath: {
+            file: null,
+            path: data.logoPath,
+          },
+          jobTitle: data.name,
+          jobCategory: data.position.categoryId,
+          jobPosition: data.positionId,
+          jobType: data.type,
+          jobWorkMode: data.workMode,
+          jobLocation: data.location,
+          jobDescription: data.descriptionMain,
+          jobResponsibilities: data.descriptionResponsibilities,
+          jobQualifications: data.descriptionQualifications,
+          age: {
+            isUse: data.questionDob ? true : false,
+            min: data.queryDobFrom ? dayjs(data.queryDobFrom).diff(dayjs("1970-01-01"), "year") : 0,
+            max: data.queryDobTo ? dayjs(data.queryDobTo).diff(dayjs("1970-01-01"), "year") : 0,
+            content: data.questionDob,
+          },
+          experience: {
+            isUse: data.questionExperienceYears ? true : false,
+            min: data.queryExperienceYearsFrom ? data.queryExperienceYearsFrom : 0,
+            max: data.queryExperienceYearsTo ? data.queryExperienceYearsTo : 0,
+            content: data.questionExperienceYears,
+          },
+          salary: {
+            isUse: data.questionExpectedSalary ? true : false,
+            min: data.queryExpectedSalaryFrom ? data.queryExpectedSalaryFrom : 0,
+            max: data.queryExpectedSalaryTo ? data.queryExpectedSalaryTo : 0,
+            content: data.questionExpectedSalary,
+          },
+          qulification: {
+            isUse: data.queryQualificationLevels ? true : false,
+            enable: (data.queryQualificationLevels || "").split(",").map((item) => ({ value: item })),
+            content: data.queryQualificationLevels,
+          },
+          location: {
+            isUse: data.queryPreferredLocation ? true : false,
+            enable: (data.queryPreferredLocation || "").split(",").map((item) => ({ value: item })),
+            content: data.queryPreferredLocation,
+          },
+          gender: {
+            isUse: data.questionGender ? true : false,
+            enable: data.queryGender ?? "",
+            content: data.questionGender,
+          },
+        };
+        return (
+          <Stack direction="row" spacing={1}>
+            <Tooltip title="View">
+              <IconButton
+                aria-label="view"
+                color="primary"
+                onClick={() => {
+                  navigate(`/reports/${params.row.id}`, { state: { formData } });
+                }}
+              >
+                <VisibilityIcon fontSize="inherit" color="primary" />
+              </IconButton>
+            </Tooltip>
+          </Stack>
+        );
+      },
     },
     {
       field: "name",
@@ -242,39 +160,34 @@ function Reports(props: { access: string }) {
       flex: 1,
     },
     {
-      field: "title",
+      field: "positionId",
       headerName: "Job Title",
       minWidth: 200,
       flex: 1,
+      renderCell: (params) => params.row?.position?.name,
     },
     {
       field: "createdAt",
-      headerName: "Posted Date",
+      headerName: "Created Date",
       minWidth: 150,
       flex: 1,
       renderCell: (params) => dayjs(params.row?.createdAt).format("YYYY-MM-DD"),
     },
     {
-      field: "endAt",
-      headerName: "End Date",
+      field: "updatedAt",
+      headerName: "Posted Date",
       minWidth: 150,
       flex: 1,
-      renderCell: (params) => dayjs(params.row?.endAt).format("YYYY-MM-DD"),
+      renderCell: (params) => dayjs(params.row?.updatedAt).format("YYYY-MM-DD"),
     },
     {
-      field: "sortCount",
-      headerName: "Sorted Candidate Count",
-      minWidth: 120,
-      flex: 1,
-    },
-    {
-      field: "status",
+      field: "processingState",
       headerName: "Status",
       minWidth: 120,
       maxWidth: 150,
       flex: 1,
       renderCell: (params) => {
-        const { label, color } = statusMap[params.row?.status] ?? {
+        const { label, color } = statusMap[params.row?.processingState] ?? {
           label: "Unknown",
           color: "default",
         };
@@ -292,26 +205,44 @@ function Reports(props: { access: string }) {
         <Grid item xs={12}>
           <Formik
             initialValues={{
-              userName: "",
+              createdFrom: null,
+              createdTo: null,
+              name: "",
             }}
             validationSchema={applyGlobalValidations(
               Yup.object().shape({
-                userName: Yup.string().notRequired(),
+                name: Yup.string().notRequired(),
+                createdFrom: Yup.date().notRequired().typeError("please enter a valid date"),
+                createdTo: Yup.date().notRequired().typeError("please enter a valid date"),
               })
             )}
             onSubmit={(values: any) => {
-              // setPage(0);
-              setSearch(values.userName || "");
+              setPaginationModel({
+                page: 0,
+                pageSize: 10,
+              });
+              setCount(0);
+              setSearch({
+                createdFrom: values.createdFrom ? values.createdFrom.startOf("day") : null,
+                createdTo: values.createdTo ? values.createdTo.endOf("day") : null,
+                name: values.name ? values.name : null,
+              });
             }}
           >
-            {() => (
+            {({ values }) => (
               <Form>
                 <Grid container columnSpacing={1} justifyContent={"flex-end"}>
+                  <Grid item lg={2.5} md={3} sm={4} xs={12} xl={2}>
+                    <DatePickerWrapper name="createdFrom" label="Created From" placeholder="Created From" maxDate={values.createdTo} />
+                  </Grid>
+                  <Grid item lg={2.5} md={3} sm={4} xs={12} xl={2}>
+                    <DatePickerWrapper name="createdTo" label="Created To" placeholder="Created To" minDate={values.createdFrom} />
+                  </Grid>
                   <Grid item>
                     <TextFieldWrapper
                       label="Search"
-                      placeholder="Search.."
-                      name="userName"
+                      placeholder="Job Post Name"
+                      name="name"
                       InputProps={{
                         endAdornment: (
                           <InputAdornment position="start">
@@ -320,8 +251,6 @@ function Reports(props: { access: string }) {
                         ),
                       }}
                       size={"small"}
-                      // sx={{ minWidth: "250px" }}
-                      // fullWidth={true}
                     />
                   </Grid>
                   <Grid item>
@@ -334,12 +263,12 @@ function Reports(props: { access: string }) {
             )}
           </Formik>
         </Grid>
-        <Grid item lg={open && !matchDownSM ? 7 : 12} md={open && !matchDownSM ? 7 : 12} sm={12} xs={12}>
+        <Grid item lg={12} md={12} sm={12} xs={12}>
           <Box sx={{ minHeight: 400, width: "100%" }}>
             <DataGrid
               columns={columns}
-              loading={isLoading}
-              rows={jobPosts}
+              loading={listItems?.isLoading}
+              rows={listItems?.data?.data ?? []}
               slots={{
                 noRowsOverlay: EmptyResultDataGrid,
                 loadingOverlay: () => <LinearProgress />,
@@ -367,22 +296,6 @@ function Reports(props: { access: string }) {
             />
           </Box>
         </Grid>
-        {/* {open && !matchDownSM ? (
-          <Grid item lg={5} md={5}>
-            <MainCard title={dialogTitle}>
-              <CreateClient
-                fetchData={() => {
-                  getCustomerList(search, paginationModel);
-                }}
-                initialData={{}}
-                initialItem={initialItem}
-                setOpen={setOpen}
-              />
-            </MainCard>
-          </Grid>
-        ) : (
-          dialog
-        )} */}
       </Grid>
     </Grid>
   );

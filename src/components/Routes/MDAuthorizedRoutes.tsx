@@ -7,6 +7,10 @@ import JobPostsList from "../JobPosts";
 import Reports from "../Reports";
 import ReportData from "../Reports/ReportData";
 import JobPostDetails from "../JobPosts/AddorUpdateJobPost";
+import JobNotifications from "../Candidate/Notifications";
+import MyJobApplications from "../Candidate/Applications";
+import JobCategoryList from "../AdminSettings/JobCaregory";
+import JobPositionList from "../AdminSettings/JobPosition";
 
 const Dashboard = Loadable(lazy(() => import("../Dashboard/index")));
 const UnauthorizedAccess = Loadable(lazy(() => import("../../utils/ui-components/UnauthorizedAccess")));
@@ -35,11 +39,27 @@ function AdminAuthorizedRoutes(role: any) {
         },
         {
           path: "reports",
-          element: <Reports access={"1111"} />, // access - CRUD
+          element: <Reports />, // access - CRUD
         },
         {
           path: "reports/:id",
           element: <ReportData access={"1111"} />, // access - CRUD
+        },
+        {
+          path: "job-notification",
+          element: <JobNotifications access={"1111"} />, // access - CRUD
+        },
+        {
+          path: "my-applications",
+          element: <MyJobApplications access={"1111"} />, // access - CRUD
+        },
+        {
+          path: "config/job-category",
+          element: <JobCategoryList />, // access - CRUD
+        },
+        {
+          path: "config/job-position",
+          element: <JobPositionList />, // access - CRUD
         },
       ],
     },

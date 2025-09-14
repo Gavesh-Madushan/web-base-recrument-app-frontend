@@ -1,0 +1,4049 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Recruitment Management",
+    "version": "0.0.0"
+  },
+  "tags": [
+    {
+      "name": "Sessions"
+    },
+    {
+      "name": "Users"
+    },
+    {
+      "name": "Uploads"
+    },
+    {
+      "name": "Job Positions & Categories"
+    },
+    {
+      "name": "Job Postings"
+    },
+    {
+      "name": "Job Applications"
+    },
+    {
+      "name": "Notifications"
+    }
+  ],
+  "paths": {
+    "/jobApplications": {
+      "get": {
+        "operationId": "listJobApplications",
+        "description": "listJobApplications",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Structs.OffsetPaginationInput.pageSize"
+          },
+          {
+            "$ref": "#/components/parameters/Structs.OffsetPaginationInput.page"
+          },
+          {
+            "$ref": "#/components/parameters/JobApplications.JobApplicationFilter.jobPostingId"
+          },
+          {
+            "$ref": "#/components/parameters/JobApplications.JobApplicationFilter.userId"
+          },
+          {
+            "$ref": "#/components/parameters/JobApplications.JobApplicationFilter.dobFrom"
+          },
+          {
+            "$ref": "#/components/parameters/JobApplications.JobApplicationFilter.dobTo"
+          },
+          {
+            "$ref": "#/components/parameters/JobApplications.JobApplicationFilter.gender"
+          },
+          {
+            "$ref": "#/components/parameters/JobApplications.JobApplicationFilter.experienceYearsFrom"
+          },
+          {
+            "$ref": "#/components/parameters/JobApplications.JobApplicationFilter.experienceYearsTo"
+          },
+          {
+            "$ref": "#/components/parameters/JobApplications.JobApplicationFilter.qualificationLevels"
+          },
+          {
+            "$ref": "#/components/parameters/JobApplications.JobApplicationFilter.preferredLocation"
+          },
+          {
+            "$ref": "#/components/parameters/JobApplications.JobApplicationFilter.expectedSalaryFrom"
+          },
+          {
+            "$ref": "#/components/parameters/JobApplications.JobApplicationFilter.expectedSalaryTo"
+          },
+          {
+            "$ref": "#/components/parameters/JobApplications.JobApplicationFilter.processingState"
+          },
+          {
+            "$ref": "#/components/parameters/JobApplications.JobApplicationFilter.createdFrom"
+          },
+          {
+            "$ref": "#/components/parameters/JobApplications.JobApplicationFilter.createdTo"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data"
+                  ],
+                  "properties": {
+                    "totalCount": {
+                      "type": "integer",
+                      "description": "Will be calculated only if the 'page' parameter is explicitly set to 0"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "$ref": "#/components/schemas/Scalars.id"
+                          },
+                          "jobPostingId": {
+                            "$ref": "#/components/schemas/Scalars.id"
+                          },
+                          "userId": {
+                            "$ref": "#/components/schemas/Scalars.id"
+                          },
+                          "firstName": {
+                            "type": "string"
+                          },
+                          "lastName": {
+                            "type": "string"
+                          },
+                          "email": {
+                            "$ref": "#/components/schemas/Scalars.email"
+                          },
+                          "nic": {
+                            "$ref": "#/components/schemas/Scalars.str15"
+                          },
+                          "mobile": {
+                            "$ref": "#/components/schemas/Scalars.mobile"
+                          },
+                          "cvPath": {
+                            "$ref": "#/components/schemas/Scalars.str100"
+                          },
+                          "address": {
+                            "$ref": "#/components/schemas/Scalars.str200"
+                          },
+                          "answerDob": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/Scalars.datetime"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "answerGender": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/JobApplications.Gender"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "answerExperienceYears": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/Scalars.n"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "answerQualificationLevel": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/JobApplications.JobQualificationLevel"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "answerPreferredLocation": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/Scalars.str50"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "answerExpectedSalary": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/Scalars.money"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "processingState": {
+                            "$ref": "#/components/schemas/JobApplications.ProcessingState"
+                          },
+                          "interview1At": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/Scalars.datetime"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "interview2At": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/Scalars.datetime"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "interview3At": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/Scalars.datetime"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "interview4At": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/Scalars.datetime"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "interview5At": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/Scalars.datetime"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "interview6At": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/Scalars.datetime"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "interview7At": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/Scalars.datetime"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "interview8At": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/Scalars.datetime"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "interview9At": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/Scalars.datetime"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "user": {
+                            "$ref": "#/components/schemas/Users.User"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "jobPostingId",
+                          "userId",
+                          "firstName",
+                          "lastName",
+                          "email",
+                          "nic",
+                          "mobile",
+                          "cvPath",
+                          "address",
+                          "answerDob",
+                          "answerGender",
+                          "answerExperienceYears",
+                          "answerQualificationLevel",
+                          "answerPreferredLocation",
+                          "answerExpectedSalary",
+                          "processingState",
+                          "interview1At",
+                          "interview2At",
+                          "interview3At",
+                          "interview4At",
+                          "interview5At",
+                          "interview6At",
+                          "interview7At",
+                          "interview8At",
+                          "interview9At",
+                          "createdAt",
+                          "updatedAt",
+                          "user"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Job Applications"
+        ]
+      },
+      "post": {
+        "operationId": "createJobApplication",
+        "description": "createJobApplication",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "The request has succeeded and a new resource has been created as a result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobApplications.JobApplication"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Job Applications"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JobApplications.JobApplicationInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jobApplications/{id}": {
+      "put": {
+        "operationId": "replaceJobApplication",
+        "description": "replaceJobApplication",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Scalars.id"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The request has succeeded and a new resource has been created as a result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobApplications.JobApplication"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Job Applications"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JobApplications.JobApplicationInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jobCategories": {
+      "get": {
+        "operationId": "listJobCategories",
+        "description": "listJobCategories",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Structs.OffsetPaginationInput.pageSize"
+          },
+          {
+            "$ref": "#/components/parameters/Structs.OffsetPaginationInput.page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data"
+                  ],
+                  "properties": {
+                    "totalCount": {
+                      "type": "integer",
+                      "description": "Will be calculated only if the 'page' parameter is explicitly set to 0"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/JobCategories.JobCategory"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The server cannot find the requested resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Job Positions & Categories"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "createJobCategory",
+        "description": "createJobCategory",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "The request has succeeded and a new resource has been created as a result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobCategories.JobCategory"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The server cannot find the requested resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Job Positions & Categories"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JobCategories.JobCategoryInput"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/jobPositions": {
+      "get": {
+        "operationId": "listJobPositions",
+        "description": "listJobPositions",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Structs.OffsetPaginationInput.pageSize"
+          },
+          {
+            "$ref": "#/components/parameters/Structs.OffsetPaginationInput.page"
+          },
+          {
+            "$ref": "#/components/parameters/JobCategories.JobPositionFilterExact"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data"
+                  ],
+                  "properties": {
+                    "totalCount": {
+                      "type": "integer",
+                      "description": "Will be calculated only if the 'page' parameter is explicitly set to 0"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/JobCategories.JobPosition"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The server cannot find the requested resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Job Positions & Categories"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "createJobPosition",
+        "description": "createJobPosition",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "The request has succeeded and a new resource has been created as a result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobCategories.JobPosition"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The server cannot find the requested resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Job Positions & Categories"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JobCategories.JobPositionInput"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/jobPostings": {
+      "get": {
+        "operationId": "listJobPostings",
+        "description": "listJobPostings",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Structs.OffsetPaginationInput.pageSize"
+          },
+          {
+            "$ref": "#/components/parameters/Structs.OffsetPaginationInput.page"
+          },
+          {
+            "$ref": "#/components/parameters/JobPostings.JobPostingFilter.name"
+          },
+          {
+            "$ref": "#/components/parameters/JobPostings.JobPostingFilter.location"
+          },
+          {
+            "$ref": "#/components/parameters/JobPostings.JobPostingFilter.type"
+          },
+          {
+            "$ref": "#/components/parameters/JobPostings.JobPostingFilter.workMode"
+          },
+          {
+            "$ref": "#/components/parameters/JobPostings.JobPostingFilter.positionId"
+          },
+          {
+            "$ref": "#/components/parameters/JobPostings.JobPostingFilter.processingState"
+          },
+          {
+            "$ref": "#/components/parameters/JobPostings.JobPostingFilter.createdFrom"
+          },
+          {
+            "$ref": "#/components/parameters/JobPostings.JobPostingFilter.createdTo"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data"
+                  ],
+                  "properties": {
+                    "totalCount": {
+                      "type": "integer",
+                      "description": "Will be calculated only if the 'page' parameter is explicitly set to 0"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "$ref": "#/components/schemas/Scalars.id"
+                          },
+                          "name": {
+                            "$ref": "#/components/schemas/Scalars.str50"
+                          },
+                          "location": {
+                            "$ref": "#/components/schemas/Scalars.str50"
+                          },
+                          "logoPath": {
+                            "$ref": "#/components/schemas/Scalars.str100"
+                          },
+                          "type": {
+                            "$ref": "#/components/schemas/JobPostings.JobType"
+                          },
+                          "workMode": {
+                            "$ref": "#/components/schemas/JobPostings.JobWorkMode"
+                          },
+                          "descriptionMain": {
+                            "$ref": "#/components/schemas/Scalars.str1000"
+                          },
+                          "descriptionResponsibilities": {
+                            "$ref": "#/components/schemas/Scalars.str1000"
+                          },
+                          "descriptionQualifications": {
+                            "$ref": "#/components/schemas/Scalars.str1000"
+                          },
+                          "positionId": {
+                            "$ref": "#/components/schemas/Scalars.id"
+                          },
+                          "questionDob": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/Scalars.str200"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "questionGender": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/Scalars.str200"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "questionExperienceYears": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/Scalars.str200"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "questionQualificationLevel": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/Scalars.str200"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "questionPreferredLocation": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/Scalars.str200"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "questionExpectedSalary": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/Scalars.str200"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "queryDobFrom": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/Scalars.datetime"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "queryDobTo": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/Scalars.datetime"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "queryGender": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/JobApplications.Gender"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "queryExperienceYearsFrom": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/Scalars.n"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "queryExperienceYearsTo": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/Scalars.n"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "queryQualificationLevels": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/Scalars.str200"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "queryPreferredLocation": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/Scalars.str50"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "queryExpectedSalaryFrom": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/Scalars.money"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "queryExpectedSalaryTo": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/components/schemas/Scalars.money"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "processingState": {
+                            "$ref": "#/components/schemas/JobPostings.ProcessingState"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "user": {
+                            "$ref": "#/components/schemas/Users.User"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "location",
+                          "logoPath",
+                          "type",
+                          "workMode",
+                          "descriptionMain",
+                          "descriptionResponsibilities",
+                          "descriptionQualifications",
+                          "positionId",
+                          "questionDob",
+                          "questionGender",
+                          "questionExperienceYears",
+                          "questionQualificationLevel",
+                          "questionPreferredLocation",
+                          "questionExpectedSalary",
+                          "queryDobFrom",
+                          "queryDobTo",
+                          "queryGender",
+                          "queryExperienceYearsFrom",
+                          "queryExperienceYearsTo",
+                          "queryQualificationLevels",
+                          "queryPreferredLocation",
+                          "queryExpectedSalaryFrom",
+                          "queryExpectedSalaryTo",
+                          "processingState",
+                          "createdAt",
+                          "updatedAt",
+                          "user"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Job Postings"
+        ]
+      },
+      "post": {
+        "operationId": "createJobPosting",
+        "description": "createJobPosting",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "The request has succeeded and a new resource has been created as a result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobPostings.JobPosting"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Job Postings"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JobPostings.JobPostingInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jobPostings/{id}": {
+      "put": {
+        "operationId": "replaceJobPosting",
+        "description": "replaceJobPosting",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Scalars.id"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The request has succeeded and a new resource has been created as a result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobPostings.JobPosting"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Job Postings"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JobPostings.JobPostingInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notifications": {
+      "get": {
+        "operationId": "listNotifications",
+        "description": "listNotifications",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Structs.OffsetPaginationInput.pageSize"
+          },
+          {
+            "$ref": "#/components/parameters/Structs.OffsetPaginationInput.page"
+          },
+          {
+            "$ref": "#/components/parameters/Notifications.FilterExact.userId"
+          },
+          {
+            "$ref": "#/components/parameters/Notifications.FilterExact.readState"
+          },
+          {
+            "$ref": "#/components/parameters/Notifications.FilterExact.createdFrom"
+          },
+          {
+            "$ref": "#/components/parameters/Notifications.FilterExact.createdTo"
+          },
+          {
+            "$ref": "#/components/parameters/Notifications.FilterExact.validFrom"
+          },
+          {
+            "$ref": "#/components/parameters/Notifications.FilterExact.validTo"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data"
+                  ],
+                  "properties": {
+                    "totalCount": {
+                      "type": "integer",
+                      "description": "Will be calculated only if the 'page' parameter is explicitly set to 0"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Notifications.Notification"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Notifications"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "replaceNotifications",
+        "description": "replaceNotifications",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "There is no content to send for this request, but the headers may be useful."
+          }
+        },
+        "tags": [
+          "Notifications"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/Notifications.NotificationUpdate"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/sessions/@password": {
+      "post": {
+        "operationId": "createSessionByPassword",
+        "description": "createSessionByPassword",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "The request has succeeded and a new resource has been created as a result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Sessions.Session"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The server cannot find the requested resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Sessions"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Sessions.SessionByPasswordInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/uploads": {
+      "post": {
+        "operationId": "createUpload",
+        "description": "createUpload",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Uploads.UploadCategory"
+            },
+            "explode": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The request has succeeded and a new resource has been created as a result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Uploads.Upload"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The server cannot find the requested resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Client error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Client error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Uploads"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {}
+                },
+                "required": [
+                  "file"
+                ]
+              },
+              "encoding": {
+                "file": {
+                  "contentType": "application/pdf, image/png, image/jpeg"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/uploads/{staticPath}": {
+      "get": {
+        "operationId": "fetchUpload",
+        "description": "fetchUpload",
+        "parameters": [
+          {
+            "name": "staticPath",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "contentMediaType": "application/pdf"
+                }
+              },
+              "image/png": {
+                "schema": {
+                  "contentMediaType": "image/png"
+                }
+              },
+              "image/jpeg": {
+                "schema": {
+                  "contentMediaType": "image/jpeg"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The server cannot find the requested resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Uploads"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/users": {
+      "post": {
+        "operationId": "createUser",
+        "description": "createUser",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "The request has succeeded and a new resource has been created as a result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Users.User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The server cannot find the requested resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The request conflicts with the current state of the server.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Users.UserInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/@me/password": {
+      "put": {
+        "operationId": "replaceMyPassword",
+        "description": "replaceMyPassword",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "There is no content to send for this request, but the headers may be useful."
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "object",
+                          "properties": {
+                            "ENGLISH": {
+                              "type": "string"
+                            },
+                            "SINHALA": {
+                              "type": "string"
+                            },
+                            "TAMIL": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "ENGLISH",
+                            "SINHALA",
+                            "TAMIL"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "message"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "object",
+                          "properties": {
+                            "ENGLISH": {
+                              "type": "string"
+                            },
+                            "SINHALA": {
+                              "type": "string"
+                            },
+                            "TAMIL": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "ENGLISH",
+                            "SINHALA",
+                            "TAMIL"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "message"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ENGLISH": {
+                          "type": "string"
+                        },
+                        "SINHALA": {
+                          "type": "string"
+                        },
+                        "TAMIL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ENGLISH",
+                        "SINHALA",
+                        "TAMIL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "oldPassword": {
+                    "$ref": "#/components/schemas/Scalars.password"
+                  },
+                  "newPassword": {
+                    "$ref": "#/components/schemas/Scalars.password"
+                  }
+                },
+                "required": [
+                  "oldPassword",
+                  "newPassword"
+                ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/users/{id}/password": {
+      "put": {
+        "operationId": "replacePassword",
+        "description": "replacePassword",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Scalars.id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "There is no content to send for this request, but the headers may be useful."
+          }
+        },
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Structs.PasswordInput"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "JobApplications.JobApplicationFilter.createdFrom": {
+        "name": "createdFrom",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Scalars.datetime"
+        },
+        "explode": false
+      },
+      "JobApplications.JobApplicationFilter.createdTo": {
+        "name": "createdTo",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Scalars.datetime"
+        },
+        "explode": false
+      },
+      "JobApplications.JobApplicationFilter.dobFrom": {
+        "name": "dobFrom",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Scalars.datetime"
+        },
+        "explode": false
+      },
+      "JobApplications.JobApplicationFilter.dobTo": {
+        "name": "dobTo",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Scalars.datetime"
+        },
+        "explode": false
+      },
+      "JobApplications.JobApplicationFilter.expectedSalaryFrom": {
+        "name": "expectedSalaryFrom",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Scalars.money"
+        },
+        "explode": false
+      },
+      "JobApplications.JobApplicationFilter.expectedSalaryTo": {
+        "name": "expectedSalaryTo",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Scalars.money"
+        },
+        "explode": false
+      },
+      "JobApplications.JobApplicationFilter.experienceYearsFrom": {
+        "name": "experienceYearsFrom",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Scalars.n"
+        },
+        "explode": false
+      },
+      "JobApplications.JobApplicationFilter.experienceYearsTo": {
+        "name": "experienceYearsTo",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Scalars.n"
+        },
+        "explode": false
+      },
+      "JobApplications.JobApplicationFilter.gender": {
+        "name": "gender",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/JobApplications.Gender"
+        },
+        "explode": false
+      },
+      "JobApplications.JobApplicationFilter.jobPostingId": {
+        "name": "jobPostingId",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Scalars.id"
+        },
+        "explode": false
+      },
+      "JobApplications.JobApplicationFilter.preferredLocation": {
+        "name": "preferredLocation",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Scalars.str50"
+        },
+        "explode": false
+      },
+      "JobApplications.JobApplicationFilter.processingState": {
+        "name": "processingState",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/JobApplications.ProcessingState"
+        },
+        "explode": false
+      },
+      "JobApplications.JobApplicationFilter.qualificationLevels": {
+        "name": "qualificationLevels",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Scalars.str200"
+        },
+        "explode": false
+      },
+      "JobApplications.JobApplicationFilter.userId": {
+        "name": "userId",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Scalars.id"
+        },
+        "explode": false
+      },
+      "JobCategories.JobPositionFilterExact": {
+        "name": "categoryId",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Scalars.id"
+        },
+        "explode": false
+      },
+      "JobPostings.JobPostingFilter.createdFrom": {
+        "name": "createdFrom",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Scalars.datetime"
+        },
+        "explode": false
+      },
+      "JobPostings.JobPostingFilter.createdTo": {
+        "name": "createdTo",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Scalars.datetime"
+        },
+        "explode": false
+      },
+      "JobPostings.JobPostingFilter.location": {
+        "name": "location",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Scalars.str50"
+        },
+        "explode": false
+      },
+      "JobPostings.JobPostingFilter.name": {
+        "name": "name",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Scalars.str50"
+        },
+        "explode": false
+      },
+      "JobPostings.JobPostingFilter.positionId": {
+        "name": "positionId",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Scalars.id"
+        },
+        "explode": false
+      },
+      "JobPostings.JobPostingFilter.processingState": {
+        "name": "processingState",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/JobPostings.ProcessingState"
+        },
+        "explode": false
+      },
+      "JobPostings.JobPostingFilter.type": {
+        "name": "type",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/JobPostings.JobType"
+        },
+        "explode": false
+      },
+      "JobPostings.JobPostingFilter.workMode": {
+        "name": "workMode",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/JobPostings.JobWorkMode"
+        },
+        "explode": false
+      },
+      "Notifications.FilterExact.createdFrom": {
+        "name": "createdFrom",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Scalars.datetime"
+        },
+        "explode": false
+      },
+      "Notifications.FilterExact.createdTo": {
+        "name": "createdTo",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Scalars.datetime"
+        },
+        "explode": false
+      },
+      "Notifications.FilterExact.readState": {
+        "name": "readState",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Notifications.ReadState"
+        },
+        "explode": false
+      },
+      "Notifications.FilterExact.userId": {
+        "name": "userId",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Scalars.id"
+        },
+        "explode": false
+      },
+      "Notifications.FilterExact.validFrom": {
+        "name": "validFrom",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Scalars.datetime"
+        },
+        "explode": false
+      },
+      "Notifications.FilterExact.validTo": {
+        "name": "validTo",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Scalars.datetime"
+        },
+        "explode": false
+      },
+      "Structs.OffsetPaginationInput.page": {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "explode": false
+      },
+      "Structs.OffsetPaginationInput.pageSize": {
+        "name": "pageSize",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50,
+          "default": 50
+        },
+        "explode": false
+      }
+    },
+    "schemas": {
+      "Enums.EnabledState": {
+        "type": "string",
+        "enum": [
+          "ENABLED",
+          "DISABLED"
+        ]
+      },
+      "JobApplications.Gender": {
+        "type": "string",
+        "enum": [
+          "MALE",
+          "FEMALE",
+          "OTHER"
+        ]
+      },
+      "JobApplications.JobApplication": {
+        "type": "object",
+        "required": [
+          "id",
+          "jobPostingId",
+          "userId",
+          "firstName",
+          "lastName",
+          "email",
+          "nic",
+          "mobile",
+          "cvPath",
+          "address",
+          "answerDob",
+          "answerGender",
+          "answerExperienceYears",
+          "answerQualificationLevel",
+          "answerPreferredLocation",
+          "answerExpectedSalary",
+          "processingState",
+          "interview1At",
+          "interview2At",
+          "interview3At",
+          "interview4At",
+          "interview5At",
+          "interview6At",
+          "interview7At",
+          "interview8At",
+          "interview9At",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Scalars.id"
+          },
+          "jobPostingId": {
+            "$ref": "#/components/schemas/Scalars.id"
+          },
+          "userId": {
+            "$ref": "#/components/schemas/Scalars.id"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "$ref": "#/components/schemas/Scalars.email"
+          },
+          "nic": {
+            "$ref": "#/components/schemas/Scalars.str15"
+          },
+          "mobile": {
+            "$ref": "#/components/schemas/Scalars.mobile"
+          },
+          "cvPath": {
+            "$ref": "#/components/schemas/Scalars.str100"
+          },
+          "address": {
+            "$ref": "#/components/schemas/Scalars.str200"
+          },
+          "answerDob": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.datetime"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "answerGender": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/JobApplications.Gender"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "answerExperienceYears": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.n"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "answerQualificationLevel": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/JobApplications.JobQualificationLevel"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "answerPreferredLocation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.str50"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "answerExpectedSalary": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.money"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "processingState": {
+            "$ref": "#/components/schemas/JobApplications.ProcessingState"
+          },
+          "interview1At": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.datetime"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "interview2At": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.datetime"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "interview3At": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.datetime"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "interview4At": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.datetime"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "interview5At": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.datetime"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "interview6At": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.datetime"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "interview7At": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.datetime"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "interview8At": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.datetime"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "interview9At": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.datetime"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "JobApplications.JobApplicationInput": {
+        "type": "object",
+        "required": [
+          "jobPostingId",
+          "firstName",
+          "lastName",
+          "email",
+          "nic",
+          "mobile",
+          "cvPath",
+          "address",
+          "answerDob",
+          "answerGender",
+          "answerExperienceYears",
+          "answerQualificationLevel",
+          "answerPreferredLocation",
+          "answerExpectedSalary",
+          "processingState",
+          "interview1At",
+          "interview2At",
+          "interview3At",
+          "interview4At",
+          "interview5At",
+          "interview6At",
+          "interview7At",
+          "interview8At",
+          "interview9At",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "jobPostingId": {
+            "$ref": "#/components/schemas/Scalars.id"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "$ref": "#/components/schemas/Scalars.email"
+          },
+          "nic": {
+            "$ref": "#/components/schemas/Scalars.str15"
+          },
+          "mobile": {
+            "$ref": "#/components/schemas/Scalars.mobile"
+          },
+          "cvPath": {
+            "$ref": "#/components/schemas/Scalars.str100"
+          },
+          "address": {
+            "$ref": "#/components/schemas/Scalars.str200"
+          },
+          "answerDob": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.datetime"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "answerGender": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/JobApplications.Gender"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "answerExperienceYears": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.n"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "answerQualificationLevel": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/JobApplications.JobQualificationLevel"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "answerPreferredLocation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.str50"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "answerExpectedSalary": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.money"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "processingState": {
+            "$ref": "#/components/schemas/JobApplications.ProcessingState"
+          },
+          "interview1At": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.datetime"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "interview2At": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.datetime"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "interview3At": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.datetime"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "interview4At": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.datetime"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "interview5At": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.datetime"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "interview6At": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.datetime"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "interview7At": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.datetime"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "interview8At": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.datetime"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "interview9At": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.datetime"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "description": "The template for omitting properties."
+      },
+      "JobApplications.JobQualificationLevel": {
+        "type": "string",
+        "enum": [
+          "BACHELORS",
+          "MASTERS",
+          "PHD"
+        ]
+      },
+      "JobApplications.ProcessingState": {
+        "type": "string",
+        "enum": [
+          "PENDING",
+          "SHORTLISTED",
+          "INTERVIEW_SCHEDULED",
+          "ACCEPTED",
+          "REJECTED"
+        ]
+      },
+      "JobCategories.JobCategory": {
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Scalars.id"
+          },
+          "name": {
+            "$ref": "#/components/schemas/Scalars.str50"
+          }
+        }
+      },
+      "JobCategories.JobCategoryInput": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "$ref": "#/components/schemas/Scalars.str50"
+          }
+        },
+        "description": "The template for omitting properties."
+      },
+      "JobCategories.JobPosition": {
+        "type": "object",
+        "required": [
+          "id",
+          "categoryId",
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Scalars.id"
+          },
+          "categoryId": {
+            "$ref": "#/components/schemas/Scalars.id"
+          },
+          "name": {
+            "$ref": "#/components/schemas/Scalars.str50"
+          }
+        }
+      },
+      "JobCategories.JobPositionInput": {
+        "type": "object",
+        "required": [
+          "categoryId",
+          "name"
+        ],
+        "properties": {
+          "categoryId": {
+            "$ref": "#/components/schemas/Scalars.id"
+          },
+          "name": {
+            "$ref": "#/components/schemas/Scalars.str50"
+          }
+        },
+        "description": "The template for omitting properties."
+      },
+      "JobPostings.JobPosting": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "location",
+          "logoPath",
+          "type",
+          "workMode",
+          "descriptionMain",
+          "descriptionResponsibilities",
+          "descriptionQualifications",
+          "positionId",
+          "questionDob",
+          "questionGender",
+          "questionExperienceYears",
+          "questionQualificationLevel",
+          "questionPreferredLocation",
+          "questionExpectedSalary",
+          "queryDobFrom",
+          "queryDobTo",
+          "queryGender",
+          "queryExperienceYearsFrom",
+          "queryExperienceYearsTo",
+          "queryQualificationLevels",
+          "queryPreferredLocation",
+          "queryExpectedSalaryFrom",
+          "queryExpectedSalaryTo",
+          "processingState",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Scalars.id"
+          },
+          "name": {
+            "$ref": "#/components/schemas/Scalars.str50"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Scalars.str50"
+          },
+          "logoPath": {
+            "$ref": "#/components/schemas/Scalars.str100"
+          },
+          "type": {
+            "$ref": "#/components/schemas/JobPostings.JobType"
+          },
+          "workMode": {
+            "$ref": "#/components/schemas/JobPostings.JobWorkMode"
+          },
+          "descriptionMain": {
+            "$ref": "#/components/schemas/Scalars.str1000"
+          },
+          "descriptionResponsibilities": {
+            "$ref": "#/components/schemas/Scalars.str1000"
+          },
+          "descriptionQualifications": {
+            "$ref": "#/components/schemas/Scalars.str1000"
+          },
+          "positionId": {
+            "$ref": "#/components/schemas/Scalars.id"
+          },
+          "questionDob": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.str200"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "questionGender": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.str200"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "questionExperienceYears": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.str200"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "questionQualificationLevel": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.str200"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "questionPreferredLocation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.str200"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "questionExpectedSalary": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.str200"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "queryDobFrom": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.datetime"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "queryDobTo": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.datetime"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "queryGender": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/JobApplications.Gender"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "queryExperienceYearsFrom": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.n"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "queryExperienceYearsTo": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.n"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "queryQualificationLevels": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.str200"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "queryPreferredLocation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.str50"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "queryExpectedSalaryFrom": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.money"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "queryExpectedSalaryTo": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.money"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "processingState": {
+            "$ref": "#/components/schemas/JobPostings.ProcessingState"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "JobPostings.JobPostingInput": {
+        "type": "object",
+        "required": [
+          "name",
+          "location",
+          "logoPath",
+          "type",
+          "workMode",
+          "descriptionMain",
+          "descriptionResponsibilities",
+          "descriptionQualifications",
+          "positionId",
+          "questionDob",
+          "questionGender",
+          "questionExperienceYears",
+          "questionQualificationLevel",
+          "questionPreferredLocation",
+          "questionExpectedSalary",
+          "queryDobFrom",
+          "queryDobTo",
+          "queryGender",
+          "queryExperienceYearsFrom",
+          "queryExperienceYearsTo",
+          "queryQualificationLevels",
+          "queryPreferredLocation",
+          "queryExpectedSalaryFrom",
+          "queryExpectedSalaryTo",
+          "processingState",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "name": {
+            "$ref": "#/components/schemas/Scalars.str50"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Scalars.str50"
+          },
+          "logoPath": {
+            "$ref": "#/components/schemas/Scalars.str100"
+          },
+          "type": {
+            "$ref": "#/components/schemas/JobPostings.JobType"
+          },
+          "workMode": {
+            "$ref": "#/components/schemas/JobPostings.JobWorkMode"
+          },
+          "descriptionMain": {
+            "$ref": "#/components/schemas/Scalars.str1000"
+          },
+          "descriptionResponsibilities": {
+            "$ref": "#/components/schemas/Scalars.str1000"
+          },
+          "descriptionQualifications": {
+            "$ref": "#/components/schemas/Scalars.str1000"
+          },
+          "positionId": {
+            "$ref": "#/components/schemas/Scalars.id"
+          },
+          "questionDob": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.str200"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "questionGender": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.str200"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "questionExperienceYears": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.str200"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "questionQualificationLevel": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.str200"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "questionPreferredLocation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.str200"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "questionExpectedSalary": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.str200"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "queryDobFrom": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.datetime"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "queryDobTo": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.datetime"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "queryGender": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/JobApplications.Gender"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "queryExperienceYearsFrom": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.n"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "queryExperienceYearsTo": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.n"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "queryQualificationLevels": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.str200"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "queryPreferredLocation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.str50"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "queryExpectedSalaryFrom": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.money"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "queryExpectedSalaryTo": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.money"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "processingState": {
+            "$ref": "#/components/schemas/JobPostings.ProcessingState"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "description": "The template for omitting properties."
+      },
+      "JobPostings.JobType": {
+        "type": "string",
+        "enum": [
+          "FULL_TIME",
+          "PART_TIME",
+          "CONTRACT",
+          "INTERNSHIP"
+        ]
+      },
+      "JobPostings.JobWorkMode": {
+        "type": "string",
+        "enum": [
+          "ON_SITE",
+          "REMOTE",
+          "HYBRID"
+        ]
+      },
+      "JobPostings.ProcessingState": {
+        "type": "string",
+        "enum": [
+          "PENDING",
+          "OPEN",
+          "CLOSED",
+          "ARCHIVED"
+        ]
+      },
+      "Notifications.Notification": {
+        "type": "object",
+        "required": [
+          "id",
+          "userId",
+          "title",
+          "message",
+          "readState",
+          "createdAt",
+          "validAt"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Scalars.id"
+          },
+          "userId": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": {
+            "$ref": "#/components/schemas/Scalars.str50"
+          },
+          "message": {
+            "$ref": "#/components/schemas/Scalars.str100"
+          },
+          "readState": {
+            "$ref": "#/components/schemas/Notifications.ReadState"
+          },
+          "createdAt": {
+            "$ref": "#/components/schemas/Scalars.datetime"
+          },
+          "validAt": {
+            "$ref": "#/components/schemas/Scalars.datetime"
+          }
+        }
+      },
+      "Notifications.NotificationUpdate": {
+        "type": "object",
+        "required": [
+          "readIds",
+          "unreadIds"
+        ],
+        "properties": {
+          "readIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Scalars.id"
+            },
+            "maxItems": 50
+          },
+          "unreadIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Scalars.id"
+            },
+            "maxItems": 50
+          }
+        }
+      },
+      "Notifications.ReadState": {
+        "type": "string",
+        "enum": [
+          "READ",
+          "UNREAD"
+        ]
+      },
+      "Scalars.datetime": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Must be a valid ISO 8601 string. No timezone offsets are allowed"
+      },
+      "Scalars.day": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 31
+      },
+      "Scalars.email": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 50,
+        "pattern": "^(?!\\s).{1,50}(?<!\\s)$",
+        "format": "email"
+      },
+      "Scalars.id": {
+        "type": "integer",
+        "minimum": 1,
+        "description": "Must be a natural number"
+      },
+      "Scalars.mobile": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 10,
+        "pattern": "^0\\d{9}$"
+      },
+      "Scalars.money": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 9999999900,
+        "description": "Must be specified in cents"
+      },
+      "Scalars.month": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 11
+      },
+      "Scalars.n": {
+        "type": "integer",
+        "minimum": 1,
+        "description": "Must be a natural number"
+      },
+      "Scalars.otp": {
+        "type": "string",
+        "minLength": 6,
+        "maxLength": 6,
+        "pattern": "^[0-9]{6}$"
+      },
+      "Scalars.password": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 50,
+        "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*~{}_-])(?=.{8,})",
+        "description": "Must contain at least 8 characters, one uppercase, one lowercase, one number and one special character"
+      },
+      "Scalars.str10": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 10,
+        "pattern": "^(?!\\s).{1,10}(?<!\\s)$"
+      },
+      "Scalars.str100": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 100,
+        "pattern": "^(?!\\s).{1,100}(?<!\\s)$"
+      },
+      "Scalars.str1000": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1000,
+        "pattern": "^(?!\\s).{1,1000}(?<!\\s)$"
+      },
+      "Scalars.str15": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 15,
+        "pattern": "^(?!\\s).{1,15}(?<!\\s)$"
+      },
+      "Scalars.str20": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 20,
+        "pattern": "^(?!\\s).{1,20}(?<!\\s)$"
+      },
+      "Scalars.str200": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 200,
+        "pattern": "^(?!\\s).{1,200}(?<!\\s)$"
+      },
+      "Scalars.str50": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 50,
+        "pattern": "^(?!\\s).{1,50}(?<!\\s)$"
+      },
+      "Scalars.str500": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 500,
+        "pattern": "^(?!\\s).{1,500}(?<!\\s)$"
+      },
+      "Scalars.sysModule": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 20,
+        "pattern": "^(?!\\s).{1,20}(?<!\\s)$"
+      },
+      "Scalars.uuid": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "Scalars.w": {
+        "type": "integer",
+        "minimum": 0,
+        "description": "Must be a whole number"
+      },
+      "Scalars.year": {
+        "type": "integer",
+        "minimum": 2000,
+        "maximum": 9999
+      },
+      "Sessions.Session": {
+        "type": "object",
+        "required": [
+          "jwt",
+          "expiresAt",
+          "user"
+        ],
+        "properties": {
+          "jwt": {
+            "type": "string"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "user": {
+            "$ref": "#/components/schemas/Users.User"
+          }
+        }
+      },
+      "Sessions.SessionByOtpInput": {
+        "type": "object",
+        "required": [
+          "email",
+          "otp"
+        ],
+        "properties": {
+          "email": {
+            "$ref": "#/components/schemas/Scalars.email"
+          },
+          "otp": {
+            "$ref": "#/components/schemas/Scalars.otp"
+          }
+        }
+      },
+      "Sessions.SessionByPasswordInput": {
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "$ref": "#/components/schemas/Scalars.email"
+          },
+          "password": {
+            "$ref": "#/components/schemas/Scalars.password"
+          }
+        }
+      },
+      "Structs.Location": {
+        "type": "array",
+        "items": {
+          "type": "number"
+        },
+        "minItems": 2,
+        "maxItems": 2,
+        "description": "A tuple denoted as [lat, long]"
+      },
+      "Structs.PasswordInput": {
+        "type": "object",
+        "required": [
+          "password"
+        ],
+        "properties": {
+          "password": {
+            "$ref": "#/components/schemas/Scalars.password"
+          }
+        }
+      },
+      "Structs.SearchInput": {
+        "type": "object",
+        "properties": {
+          "searchTerm": {
+            "$ref": "#/components/schemas/Scalars.str10"
+          }
+        }
+      },
+      "Uploads.Upload": {
+        "type": "object",
+        "required": [
+          "contentType",
+          "category",
+          "staticPath",
+          "size"
+        ],
+        "properties": {
+          "contentType": {
+            "type": "string"
+          },
+          "category": {
+            "$ref": "#/components/schemas/Uploads.UploadCategory"
+          },
+          "staticPath": {
+            "$ref": "#/components/schemas/Scalars.str100"
+          },
+          "size": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Scalars.n"
+              }
+            ],
+            "description": "File size in bytes"
+          }
+        }
+      },
+      "Uploads.UploadCategory": {
+        "type": "string",
+        "enum": [
+          "RESUMES"
+        ]
+      },
+      "Users.User": {
+        "type": "object",
+        "required": [
+          "id",
+          "email",
+          "name",
+          "description",
+          "roleId",
+          "enabledState",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Scalars.id"
+          },
+          "email": {
+            "$ref": "#/components/schemas/Scalars.email"
+          },
+          "name": {
+            "$ref": "#/components/schemas/Scalars.str100"
+          },
+          "description": {
+            "$ref": "#/components/schemas/Scalars.str1000"
+          },
+          "roleId": {
+            "$ref": "#/components/schemas/Scalars.id"
+          },
+          "enabledState": {
+            "$ref": "#/components/schemas/Enums.EnabledState"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Users.UserInput": {
+        "type": "object",
+        "required": [
+          "email",
+          "name",
+          "description",
+          "roleId",
+          "enabledState",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "$ref": "#/components/schemas/Scalars.email"
+          },
+          "name": {
+            "$ref": "#/components/schemas/Scalars.str100"
+          },
+          "description": {
+            "type": "string"
+          },
+          "roleId": {
+            "$ref": "#/components/schemas/Scalars.id"
+          },
+          "enabledState": {
+            "$ref": "#/components/schemas/Enums.EnabledState"
+          },
+          "password": {
+            "$ref": "#/components/schemas/Scalars.password"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "Bearer"
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "/api/v1",
+      "description": "Self Server",
+      "variables": {}
+    }
+  ]
+}

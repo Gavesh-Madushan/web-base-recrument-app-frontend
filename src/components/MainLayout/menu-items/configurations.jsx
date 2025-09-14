@@ -43,17 +43,26 @@ const icons = {
 
 const configurations = {
   id: "config",
-  title: "",
+  title: "Configurations",
   type: "group",
   role: [1,3],
   children: [
     {
-      id: "/config",
-      title: "Configurations",
+      id: "/config/job-category",
+      title: "Job Category",
       type: "item",
-      url: "/config",
+      url: "/config/job-category",
       icon: icons.settings,
-      role: [1,3],
+      role: [1],
+      breadcrumbs: false,
+    },
+    {
+      id: "/config/job-position",
+      title: "Job Position",
+      type: "item",
+      url: "/config/job-position",
+      icon: icons.settings,
+      role: [1],
       breadcrumbs: false,
     },
     // {

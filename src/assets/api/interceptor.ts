@@ -1,26 +1,21 @@
 import { openErrorDialog } from "../../utils/ui-components/pop-ups/ErrorDialog";
 import { getLogout, getState } from "../../redux/actions/actions";
-import { ExZodusClient } from "@assassinonz/exzodus-client";
-import { paths } from "../../kubb/zod/operations";
-
+import { axiosInstance } from "@kubb/plugin-client/clients/axios";
 let store;
 
 export const injectStore = (_store) => {
   store = _store;
 };
 
-const dev = import.meta.env.VITE_API_DEV;
-const prod = import.meta.env.VITE_API_PROD;
+const dev = (import.meta as any).env.VITE_API_DEV;
+const prod = (import.meta as any).env.VITE_API_PROD;
 
-const interceptor = new ExZodusClient<typeof paths>(
-  import.meta.env.MODE === "development" ? dev : prod
-);
+axiosInstance.defaults.baseURL = (import.meta as any).env.MODE === "development" ? dev : prod;
 
-interceptor.axios.interceptors.request.use(
+axiosInstance.interceptors.request.use(
   (req) => {
     if (store?.getState()?.auth?.authData) {
       const decryptedDefaultData = getState(store?.getState()?.auth?.authData);
-      // console.log(decryptedDefaultData);
       req.headers["Authorization"] = `Bearer ${decryptedDefaultData.token}`;
     }
     return req;
@@ -30,7 +25,7 @@ interceptor.axios.interceptors.request.use(
   }
 );
 
-interceptor.axios.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   (response) => {
     return response;
   },
@@ -48,13 +43,13 @@ interceptor.axios.interceptors.response.use(
       response = error?.response?.data;
     }
     if (error?.response?.status === 401) {
-      openErrorDialog(error?.response?.statusText, response.message);
+      openErrorDialog(error?.response?.statusText, response.message?.ENGLISH);
       store.dispatch(getLogout("/login"));
     } else {
-      openErrorDialog("Something went wrong", response?.message);
+      openErrorDialog(error?.response?.statusText, response?.message?.ENGLISH);
     }
     return Promise.reject(error);
   }
 );
 
-export default interceptor;
+export default axiosInstance;

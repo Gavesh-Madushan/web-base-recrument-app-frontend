@@ -1,17 +1,28 @@
 import api from "./interceptor";
+import axios from "axios";
 
-export const signIn = async (formData: { username: string; password: string; rememberMe: boolean }) => {
-  const postData = {
-    body: {
-      data: {
-        mobile: "0" + formData.username,
-        password: formData.password,
-      },
-    },
-  };
-
-  return await api.post("/sessions", postData);
-};
+export function signIn(input: { username: string; password: string }) {
+  return api.post("/sessions/@password", {
+    email: input.username,
+    password: input.password,
+  });
+}
+export function listJobPost(input: {
+  page: number;
+  pageSize: number;
+  name?: string;
+  location?: string;
+  type?: "FULL_TIME" | "PART_TIME" | "CONTRACT" | "INTERNSHIP";
+  workMode?: "ON_SITE" | "REMOTE" | "HYBRID";
+  positionId?: number;
+  processingStatus?: "PENDING" | "OPEN" | "CLOSED" | "ARCHIVED";
+  createdFrom?: string;
+  createdTo?: string;
+}) {
+  return api.get("/jobPostings", {
+    params: input,
+  });
+}
 
 // export const downloadFile = (url: string) => {
 //   return axios.get(url, {

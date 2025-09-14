@@ -16,12 +16,12 @@ export default function ThemeRoutes() {
   const user = getState(authState);
 
   const ROLES_ROUTES: any = {
-    2: AdminAuthorizedRoutes(1),
-    1: DivisionalHeadAuthorizedRoutes(2),
+    1: AdminAuthorizedRoutes(1),
+    2: DivisionalHeadAuthorizedRoutes(2),
     undefined: UnauthorizedRoutes(user),
   };
 
-  return useRoutes(user ? ROLES_ROUTES[Number(user?.role)] || UnauthorizedRoutes(user) : UnauthorizedRoutes(user));
+  return useRoutes(user ? ROLES_ROUTES[Number(user?.roleId)] || UnauthorizedRoutes(user) : UnauthorizedRoutes(user));
 }
 
 export function Logout() {

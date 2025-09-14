@@ -1,3 +1,5 @@
+import CircleNotificationsIcon from "@mui/icons-material/CircleNotifications";
+
 const icons = {
   projects: (
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bi bi-joystick" viewBox="0 0 16 16">
@@ -82,72 +84,44 @@ const icons = {
       <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z" />
     </svg>
   ),
+  notification: <CircleNotificationsIcon fontSize="medium" />,
 };
 
 // ==============================|| UTILITIES MENU ITEMS ||============================== //
 
 const employee = {
-  id: "project-management",
+  id: "candidate",
   title: "",
   type: "group",
-  role: [5],
+  role: [1, 2],
   children: [
     {
-      id: "/checkin",
-      title: "Check-in",
+      id: "/job-notification",
+      title: "Job Notifications",
       type: "item",
-      url: "/checkin",
-      icon: icons.checkin,
-      role: [5],
+      url: "/job-notification",
+      icon: icons.notification,
+      role: [1, 2],
       breadcrumbs: false,
     },
     {
-      id: "/attendance",
-      title: "Attendance",
+      id: "/my-applications",
+      title: "My Applications",
       type: "item",
-      url: "/attendance",
-      icon: icons.projects,
-      role: [5],
-      breadcrumbs: false,
-    },
-    {
-      id: "/projects",
-      title: "Projects",
-      type: "item",
-      url: "/projects",
-      icon: icons.jobs,
-      role: [5],
-      breadcrumbs: false,
-    },
-    {
-      id: "/payroll",
-      title: "Payroll",
-      type: "item",
-      url: "/payroll",
-      icon: icons.attendance,
-      role: [5],
-      breadcrumbs: false,
-    },
-    {
-      id: "/leaves",
-      title: "Leaves",
-      type: "item",
-      url: "/leaves",
+      url: "/my-applications",
       icon: icons.client,
-      role: [5],
+      role: [1, 2],
       breadcrumbs: false,
     },
     {
-      id: "/attachments",
-      title: "Attachments",
+      id: "/settings",
+      title: "Settings",
       type: "item",
-      url: "/attachments",
-      icon: icons.attachments,
-      role: [5],
+      url: "/settings",
+      icon: icons.designation,
+      role: [1, 2],
       breadcrumbs: false,
     },
-    //   ],
-    // },
   ],
 };
 

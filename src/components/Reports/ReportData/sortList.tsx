@@ -28,6 +28,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import PortraitIcon from "@mui/icons-material/Portrait";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import dayjs from "dayjs";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 
 const statusMap = {
   SUBMITED: { label: "Submitted", color: "success" },
@@ -36,33 +38,8 @@ const statusMap = {
   INTERVIEW_SCHEDULED: { label: "Interview Scheduled", color: "primary" },
 } as const;
 
-export interface ClientInterface {
-  id: number | string;
-  company_name: string;
-  company_contact: string;
-  company_address: string;
-  company_email: string;
-  contact_person: string;
-  person_mobile: string;
-  status: boolean;
-  discription: string;
-}
-
-const INITIAL_FORM_STATE: ClientInterface = {
-  id: "",
-  company_name: "",
-  company_contact: "",
-  company_address: "",
-  company_email: "",
-  contact_person: "",
-  person_mobile: "",
-  status: true,
-  discription: "",
-};
-
 function SortedCandidateList(props: { access: string }) {
   const theme: any = useTheme();
-  const dispatch = useDispatch();
   const matchDownSM = useMediaQuery(theme.breakpoints.down("md"));
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -129,8 +106,6 @@ function SortedCandidateList(props: { access: string }) {
 
   const [count, setCount] = useState(0);
   const [open, setOpen] = useState<boolean>(false);
-  const [dialogTitle, setDialogTitle] = useState("");
-  const [initialItem, setInitialItem] = useState<ClientInterface>(INITIAL_FORM_STATE);
   const [paginationModel, setPaginationModel] = useState(
     state?.paginationModel || {
       page: 0,
@@ -148,61 +123,14 @@ function SortedCandidateList(props: { access: string }) {
       activeState: undefined,
       searchTerm: searchValue === "" ? undefined : searchValue,
     };
-
-    // ProjectService.getClientList(values, paginationModel.page, paginationModel.pageSize).then((response) => {
-    //   if (response.isSuccess) {
-    //     setClients(
-    //       response.data.data.map((client) => ({
-    //         id: client.id,
-    //         company_name: client.businessName,
-    //         company_contact: client.businessPhone || "",
-    //         company_address: client.businessAddress || "",
-    //         company_email: client.businessEmail || "",
-    //         contact_person: client.personName || "",
-    //         person_mobile: client.personPhone || "",
-    //         status: client.activeState,
-    //         discription: client.description || "",
-    //       }))
-    //     );
-    //     setCount(response.data.totalCount || count);
-    //     setIsLoading(false);
-    //   } else {
-    //     setCount(0);
-    //     setClients([]);
-    //     setIsLoading(false);
-    //   }
-    // });
-  };
-
-  //   const dialog = useMemo(
-  //     () =>
-  //       ViewEditDialog(CreateClient)({
-  //         open: open,
-  //         setOpen: setOpen,
-  //         dialogTitle: dialogTitle,
-  //         initialItem: initialItem,
-  //         fetchData: () => {
-  //           getCustomerList(search, paginationModel);
-  //         },
-  //         theme: theme,
-  //         maxWidth: "sm",
-  //         initialData: {},
-  //       }),
-  //     [open]
-  //   );
-
-  const handleClickOpen = (dialogTitle: string, formState: ClientInterface) => {
-    setOpen(true);
-    setDialogTitle(dialogTitle);
-    setInitialItem(formState);
   };
 
   const columns = [
     {
       field: "action",
       headerName: "Actions",
-      minWidth: 150,
-      maxWidth: 150,
+      minWidth: 120,
+      maxWidth: 120,
       headerClassName: "stickyActionHeader",
       cellClassName: "stickyColumn",
       renderCell: (params: any) => {
@@ -223,15 +151,10 @@ function SortedCandidateList(props: { access: string }) {
               </IconButton>
             </Tooltip>
             <IconButton size="small" onClick={() => {}}>
-              <Typography variant="caption" color={""}>
-                Submit
-              </Typography>
+              <ThumbUpIcon fontSize="inherit" color="success" />
             </IconButton>
             <IconButton size="small" onClick={() => {}} color="error">
-              <Typography variant="caption" color={"error"}>
-                {" "}
-                Reject
-              </Typography>
+              <ThumbDownIcon fontSize="inherit" color="error" />
             </IconButton>
           </Stack>
         );
@@ -321,22 +244,6 @@ function SortedCandidateList(props: { access: string }) {
             />
           </Box>
         </Grid>
-        {/* {open && !matchDownSM ? (
-          <Grid item lg={5} md={5}>
-            <MainCard title={dialogTitle}>
-              <CreateClient
-                fetchData={() => {
-                  getCustomerList(search, paginationModel);
-                }}
-                initialData={{}}
-                initialItem={initialItem}
-                setOpen={setOpen}
-              />
-            </MainCard>
-          </Grid>
-        ) : (
-          dialog
-        )} */}
       </Grid>
     </Grid>
   );

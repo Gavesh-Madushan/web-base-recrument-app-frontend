@@ -3,16 +3,7 @@ import PropTypes from "prop-types";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import FormControl from "@mui/material/FormControl";
-import {
-  Box,
-  Button,
-  FormControlLabel,
-  FormHelperText,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Stack,
-} from "@mui/material";
+import { Box, Button, FormControlLabel, FormHelperText, InputAdornment, InputLabel, OutlinedInput, Stack } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -48,14 +39,7 @@ function AuthLogin({ loginRequest, rememberMe, theme, ...others }: any) {
         rememberMe: rememberMe?.recuerdame || false,
       }}
       validationSchema={Yup.object().shape({
-        username: Yup.string()
-          .required("Please enter mobile number")
-          .matches(/^[1-9]\d{8}$/, "Invalid mobile numbers pattern detected")
-          .test(
-            "no-spaces",
-            "Cannot start or end with a space",
-            (value) => !value?.startsWith(" ") && !value?.endsWith(" ")
-          ),
+        username: Yup.string().email("Plase enter a valid email address").required("Please enter mobile number"),
         password: Yup.string()
           .max(50)
           .required("Password is required")
@@ -69,24 +53,10 @@ function AuthLogin({ loginRequest, rememberMe, theme, ...others }: any) {
         loginRequest(values);
       }}
     >
-      {({
-        errors,
-        handleBlur,
-        handleChange,
-        handleSubmit,
-        isSubmitting,
-        touched,
-        values,
-      }: any) => (
+      {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }: any) => (
         <form noValidate onSubmit={handleSubmit} {...others}>
-          <FormControl
-            fullWidth
-            error={Boolean(touched.username && errors.username)}
-            sx={{ ...theme.typography.customInput }}
-          >
-            <InputLabel htmlFor="outlined-adornment-username-login">
-              username
-            </InputLabel>
+          <FormControl fullWidth error={Boolean(touched.username && errors.username)} sx={{ ...theme.typography.customInput }}>
+            <InputLabel htmlFor="outlined-adornment-username-login">username</InputLabel>
             <OutlinedInput
               id="outlined-adornment-mobile-login"
               type="text"
@@ -96,28 +66,16 @@ function AuthLogin({ loginRequest, rememberMe, theme, ...others }: any) {
               onChange={handleChange}
               label="Username"
               inputProps={{}}
-              startAdornment={
-                <InputAdornment position="start">+94 |</InputAdornment>
-              }
               sx={{ borderRadius: 4 }}
             />
             {touched.username && errors.username && (
-              <FormHelperText
-                error
-                id="standard-weight-helper-text-email-login"
-              >
+              <FormHelperText error id="standard-weight-helper-text-email-login">
                 {errors.username}
               </FormHelperText>
             )}
           </FormControl>
-          <FormControl
-            fullWidth
-            error={Boolean(touched.password && errors.password)}
-            sx={{ ...theme.typography.customInput }}
-          >
-            <InputLabel htmlFor="outlined-adornment-password-login">
-              Password
-            </InputLabel>
+          <FormControl fullWidth error={Boolean(touched.password && errors.password)} sx={{ ...theme.typography.customInput }}>
+            <InputLabel htmlFor="outlined-adornment-password-login">Password</InputLabel>
             <OutlinedInput
               id="outlined-adornment-password-login"
               type={showPassword ? "text" : "password"}
@@ -143,29 +101,14 @@ function AuthLogin({ loginRequest, rememberMe, theme, ...others }: any) {
               sx={{ borderRadius: 4 }}
             />
             {touched.password && errors.password && (
-              <FormHelperText
-                error
-                id="standard-weight-helper-text-password-login"
-              >
+              <FormHelperText error id="standard-weight-helper-text-password-login">
                 {errors.password}
               </FormHelperText>
             )}
           </FormControl>
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
-            spacing={1}
-          >
+          <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
             <FormControlLabel
-              control={
-                <Checkbox
-                  checked={values.rememberMe}
-                  onChange={handleChange}
-                  name="rememberMe"
-                  color="primary"
-                />
-              }
+              control={<Checkbox checked={values.rememberMe} onChange={handleChange} name="rememberMe" color="primary" />}
               label="Remember me"
             />
             {/*<Typography variant="subtitle1" color="primary"*/}

@@ -62,6 +62,10 @@
     "zustand": "^4.3.8"
   },
   "devDependencies": {
+    "@kubb/core": "^3.10.12",
+    "@kubb/plugin-oas": "^3.10.12",
+    "@kubb/plugin-react-query": "^3.10.12",
+    "@kubb/plugin-ts": "^3.10.12",
     "@types/babel__generator": "^7.6.8",
     "@types/babel__template": "^7.4.4",
     "@types/babel__traverse": "^7.20.6",
