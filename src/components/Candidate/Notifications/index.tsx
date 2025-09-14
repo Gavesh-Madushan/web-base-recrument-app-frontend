@@ -274,10 +274,13 @@ function JobNotifications(props: { access: string }) {
                         <Grid item xs={6}>
                           <Typography>{job.name}</Typography>
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={2}>
                           <Chip label={job?.type} color="secondary" size="small" />
                         </Grid>
-                        <Grid item>
+                        <Grid item xs={2}>
+                          <Chip label={job.workMode} color="primary" size="small" />
+                        </Grid>
+                        <Grid item xs={4}>
                           <Typography>{job?.position?.name}</Typography>
                         </Grid>
                         <Grid item>
