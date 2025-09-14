@@ -40,7 +40,7 @@ const dashboard = {
   id: "dashboard",
   title: "Dashboard",
   type: "group",
-  role: [1, 2],
+  role: [3, 2],
   children: [
     {
       id: "/dashboard",
@@ -48,7 +48,7 @@ const dashboard = {
       type: "item",
       url: "/dashboard",
       icon: icons.dashboard,
-      role: [1, 2],
+      role: [3, 2],
       breadcrumbs: false,
     },
     // {

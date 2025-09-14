@@ -54,7 +54,7 @@ const projects = {
   id: "project-management",
   title: "",
   type: "group",
-  role: [1],
+  role: [2],
   children: [
     {
       id: "/job-posts",
@@ -62,7 +62,7 @@ const projects = {
       type: "item",
       url: "/job-posts",
       icon: icons.jobs,
-      role: [1],
+      role: [2],
       breadcrumbs: false,
     },
     {
@@ -71,7 +71,7 @@ const projects = {
       type: "item",
       url: "/reports",
       icon: icons.client,
-      role: [1],
+      role: [2],
       breadcrumbs: false,
     },
     //   ],

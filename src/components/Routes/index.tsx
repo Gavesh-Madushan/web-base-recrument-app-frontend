@@ -8,6 +8,7 @@ import { getLogout, getState } from "../../redux/actions/actions";
 import AdminAuthorizedRoutes from "./MDAuthorizedRoutes";
 import { useEffect } from "react";
 import DivisionalHeadAuthorizedRoutes from "./DivisionalHeadAuthorizedRoutes";
+import UserAuthorizedRoutes from "./UserAuthorizedRoutes";
 
 // ==============================|| ROUTING RENDER ||============================== //
 
@@ -18,6 +19,7 @@ export default function ThemeRoutes() {
   const ROLES_ROUTES: any = {
     1: AdminAuthorizedRoutes(1),
     2: DivisionalHeadAuthorizedRoutes(2),
+    3: UserAuthorizedRoutes(3),
     undefined: UnauthorizedRoutes(user),
   };
 
