@@ -45,7 +45,7 @@ const configurations = {
   id: "config",
   title: "Configurations",
   type: "group",
-  role: [1,3],
+  role: [1],
   children: [
     {
       id: "/config/job-category",

@@ -93,7 +93,7 @@ const employee = {
   id: "candidate",
   title: "",
   type: "group",
-  role: [1, 2],
+  role: [2],
   children: [
     {
       id: "/job-notification",
@@ -101,7 +101,7 @@ const employee = {
       type: "item",
       url: "/job-notification",
       icon: icons.notification,
-      role: [1, 2],
+      role: [2],
       breadcrumbs: false,
     },
     {
@@ -110,7 +110,7 @@ const employee = {
       type: "item",
       url: "/my-applications",
       icon: icons.client,
-      role: [1, 2],
+      role: [2],
       breadcrumbs: false,
     },
     {
@@ -119,7 +119,7 @@ const employee = {
       type: "item",
       url: "/settings",
       icon: icons.designation,
-      role: [1, 2],
+      role: [2],
       breadcrumbs: false,
     },
   ],
