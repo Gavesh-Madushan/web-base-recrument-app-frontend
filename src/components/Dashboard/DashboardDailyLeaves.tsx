@@ -15,7 +15,6 @@ import TablePaginationActions from "@mui/material/TablePagination/TablePaginatio
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import SelectWrapper from "../../utils/ui-components/FormsUI/Select";
-import { getDivisionList, listLeaveRequests } from "../../assets/api";
 import { useQuery } from "@tanstack/react-query";
 import { convert_to_proper_case } from "../../utils/utils";
 import { useTheme } from "@mui/material/styles";
@@ -62,19 +61,7 @@ export function DashboardDaliyLeaves({ sx, auth }: RecentBatches): React.JSX.Ele
   // const [attandaceLocations, setAttandaceLocations] = useState<{ lat: number; lng: number; name: string }[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const listDivision = useQuery({
-    queryKey: ["listDivision", 0, 50],
-    queryFn: () => getDivisionList({}, 0, 50),
-    enabled: role === 1 || role === 3 || role === 4,
-    select(data) {
-      return data.data.data.map((item) => ({
-        value: item.id,
-        label: item.name,
-      }));
-    },
-    // placeholderData: false,
-    staleTime: 1000 * 60 * 5,
-  });
+  const listDivision: any = () => {};
 
   useEffect(() => {
     fetchLeaveRequestList(filterVlaues);
@@ -82,35 +69,6 @@ export function DashboardDaliyLeaves({ sx, auth }: RecentBatches): React.JSX.Ele
 
   const fetchLeaveRequestList = (searchValue) => {
     setLoading(true);
-
-    listLeaveRequests({
-      // emp2ApprovalState: "APPROVED",
-      month: dayjs().month(),
-      year: dayjs().year(),
-      day: dayjs().date(),
-      page: page,
-      pageSize: rowsPerPage,
-      searchTerm: undefined,
-      division: searchValue.division === "ALL" ? undefined : Number(searchValue.division),
-      joinUser: true,
-    })
-      .then((response) => {
-        if (response.data) {
-          setTodayAttandace(
-            response.data.data.map((item) => ({
-              id: item.id,
-              type: item.type,
-              userId: item.userId,
-              nameInitials: item.user.nameInitials,
-              employeeNumber: item.user.employeeNumber,
-              period: item.period,
-              status: item.emp2ApprovalState,
-            }))
-          );
-          setCount(response.data.totalCount || count);
-        }
-      })
-      .finally(() => setLoading(false));
   };
 
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
@@ -209,10 +167,10 @@ export function DashboardDaliyLeaves({ sx, auth }: RecentBatches): React.JSX.Ele
                                       leave?.status === "APPROVED"
                                         ? theme.palette.success.dark
                                         : leave?.status === "PENDING"
-                                        ? theme.palette.warning.dark
-                                        : leave?.status === "REJECTED"
-                                        ? theme.palette.error.main
-                                        : theme.palette.grey[100]
+                                          ? theme.palette.warning.dark
+                                          : leave?.status === "REJECTED"
+                                            ? theme.palette.error.main
+                                            : theme.palette.grey[100]
                                     }
                                   >
                                     {convert_to_proper_case(leave?.status)}

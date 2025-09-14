@@ -10,7 +10,6 @@ import TextField from "../../utils/ui-components/FormsUI/TextField";
 import React, { useState } from "react";
 import { openSuccessDialog } from "../../utils/ui-components/pop-ups/SuccessDialog";
 import ButtonWrapper from "../../utils/ui-components/FormsUI/Button";
-import { replaceMyPassword } from "../../assets/api";
 import { applyGlobalValidations } from "../../utils/utils";
 
 export interface UpdatePasswordValues {
@@ -82,21 +81,6 @@ function ResetUserPassword({ setOpen }: any) {
       newPassword: itemData.newPassword,
     };
     setIsLoading(true);
-    replaceMyPassword(formData)
-      .then((response) => {
-        if (response.status === 204) {
-          setOpen(false);
-          setIsLoading(false);
-          openSuccessDialog("Success", "Password reset succefully");
-        } else {
-          setIsLoading(false);
-          setSubmitting(false);
-        }
-      })
-      .finally(() => {
-        setIsLoading(false);
-        setSubmitting(false);
-      });
   };
 
   return (

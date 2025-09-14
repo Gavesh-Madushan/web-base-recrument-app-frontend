@@ -3,32 +3,13 @@ import MainLayout from "../MainLayout";
 import Loadable from "./RouteLoad/Loadable";
 import { lazy } from "react";
 import { Logout } from ".";
-import JobPositionList from "../AdminSettings/JobPosition";
-import JobCategoryList from "../AdminSettings/JobCaregory";
-import MyJobApplications from "../Candidate/Applications";
-import JobNotifications from "../Candidate/Notifications";
 import ReportData from "../Reports/ReportData";
 import Reports from "../Reports";
 import JobPostDetails from "../JobPosts/AddorUpdateJobPost";
 import JobPostsList from "../JobPosts";
 
-// const CheckIn = Loadable(lazy(() => import("../CheckIn/index")));
-// const CheckInJobWise = Loadable(lazy(() => import("../CheckIn/check-in-project-wise")));
-// const CreateEmployee = Loadable(lazy(() => import("../Staff/EmployeeManagement/Employee/EmployeeDetails")));
-const UpdateProjectDetails = Loadable(lazy(() => import("../ProjectsManagement/Jobs/UpdateProject/UpdateProject")));
-const AttandaceRecords = Loadable(lazy(() => import("../Staff/AttandaceRecords")));
 const Dashboard = Loadable(lazy(() => import("../Dashboard/index")));
 const UnauthorizedAccess = Loadable(lazy(() => import("../../utils/ui-components/UnauthorizedAccess")));
-const EmployeeManagement = Loadable(lazy(() => import("../Staff/EmployeeManagement")));
-const ProjectManagement = Loadable(lazy(() => import("../ProjectsManagement/Jobs")));
-const CreateJob = Loadable(lazy(() => import("../ProjectsManagement/Jobs/CreateJob/CreateJob")));
-const LeaveManagement = Loadable(lazy(() => import("../Staff/LeaveManagement")));
-const ApproveOTAttendance = Loadable(lazy(() => import("../Staff/ApproveOTAttandance")));
-const ClientList = Loadable(lazy(() => import("../ProjectsManagement/Clients")));
-const CreateView = Loadable(lazy(() => import("../ProjectsManagement/Clients/ClientView/ClientView")));
-const JobView = Loadable(lazy(() => import("../ProjectsManagement/Jobs/ViewJob")));
-const EmployeeAttendance = Loadable(lazy(() => import("../Staff/AttendanceSummery/index")));
-const ProfileView = Loadable(lazy(() => import("../Profile")));
 
 function DivisionalHeadAuthorizedRoutes(role: any) {
   return [
@@ -59,22 +40,6 @@ function DivisionalHeadAuthorizedRoutes(role: any) {
         {
           path: "reports/:id",
           element: <ReportData access={"1111"} />, // access - CRUD
-        },
-        {
-          path: "job-notification",
-          element: <JobNotifications access={"1111"} />, // access - CRUD
-        },
-        {
-          path: "my-applications",
-          element: <MyJobApplications access={"1111"} />, // access - CRUD
-        },
-        {
-          path: "config/job-category",
-          element: <JobCategoryList />, // access - CRUD
-        },
-        {
-          path: "config/job-position",
-          element: <JobPositionList />, // access - CRUD
         },
       ],
     },

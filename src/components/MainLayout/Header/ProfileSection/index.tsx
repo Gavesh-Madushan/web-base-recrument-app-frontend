@@ -36,9 +36,6 @@ import { getTimeWelcome, stringAvatar } from "../../../../utils/utils";
 import { getLogout, getState, setAuthState } from "../../../../redux/actions/actions";
 import ViewEditDialog from "../../../../utils/ui-components/ViewEditDialog";
 import ResetUserPassword from "../../../ResetUserPassword";
-// import { openSnackBar } from "../../../../utils/ui-components/CustomSnackBar";
-// import { StaffService } from "../../../../assets/_services/staff-service";
-import ChangeProfilePicture from "../../../ChangeProfilePicture";
 import { UploadService } from "../../../../assets/_services/upload-service";
 
 // ==============================|| PROFILE MENU ||============================== //
@@ -53,7 +50,6 @@ const ProfileSection = (props: any) => {
 
   const [selectedIndex] = useState(-1);
   const [open, setOpen] = useState(false);
-  const [openChangeProfilePicture, setOpenChangeProfilePicture] = useState(false);
   const [openResetPassword, setOpenResetPassword] = useState(false);
   /**
    * anchorRef is used on different componets and specifying one type leads to other components throwing an error
@@ -86,23 +82,6 @@ const ProfileSection = (props: any) => {
         maxWidth: "sm",
       }),
     [openResetPassword]
-  );
-
-  const changeProfilePicture = async () => {
-    setOpen(false);
-    setOpenChangeProfilePicture(true);
-  };
-
-  const dialogProfilePicture = useMemo(
-    () =>
-      ViewEditDialog(ChangeProfilePicture)({
-        open: openChangeProfilePicture,
-        setOpen: setOpenChangeProfilePicture,
-        dialogTitle: "Change Profile Picture",
-        theme: theme,
-        maxWidth: "sm",
-      }),
-    [openChangeProfilePicture]
   );
 
   const handleClose = (event: any) => {
@@ -331,20 +310,6 @@ const ProfileSection = (props: any) => {
                         />
                       </ListItemButton>
                     )}
-                    {Number(auth.roleId) === 5 && (
-                      <ListItemButton selected={selectedIndex === 4} onClick={changeProfilePicture}>
-                        <ListItemIcon>
-                          <AssignmentIndOutlinedIcon sx={{ fontSize: "1.3rem" }} />
-                        </ListItemIcon>
-                        <ListItemText
-                          primary={
-                            <Typography variant="body2" color="inherit">
-                              Change Profile Picture
-                            </Typography>
-                          }
-                        />
-                      </ListItemButton>
-                    )}
                     <ListItemButton selected={selectedIndex === 4} onClick={handleLogout}>
                       <ListItemIcon>
                         <LogoutIcon sx={{ stroke: 1.5, fontSize: "1.3rem" }} />
@@ -365,7 +330,6 @@ const ProfileSection = (props: any) => {
         )}
       </Popper>
       {dialog}
-      {dialogProfilePicture}
     </>
   );
 };

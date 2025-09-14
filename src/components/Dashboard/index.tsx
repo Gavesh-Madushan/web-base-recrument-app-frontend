@@ -17,7 +17,6 @@ import PageHeaders from "../../utils/ui-components/PageHeaders";
 import CheckInDashboard from "./check-in-dashboard";
 import { useDispatch } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
-import { countUsersByAttendance } from "../../assets/api";
 import { DashboardDaliyLeaves } from "./DashboardDailyLeaves";
 
 function Dashboard(props: any) {
@@ -26,13 +25,7 @@ function Dashboard(props: any) {
   const theme: any = useTheme();
   const dispatch = useDispatch();
 
-  const listCounts = useQuery({
-    queryKey: ["dashboardCount", dayjs().startOf("day").toISOString(), true],
-    queryFn: () => countUsersByAttendance({ date: dayjs().startOf("day").toISOString(), calculateCounts: true }),
-    enabled: true,
-    // placeholderData: false,
-    // staleTime: 1000 * 60 * 5,
-  });
+  const listCounts: any = () => {};
 
   const [selectedTab] = useState(0);
   // const [selectedTab, setSelectedTab] = useState(0);

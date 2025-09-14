@@ -18,7 +18,6 @@ import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { useTheme } from "@emotion/react";
 import SelectWrapper from "../../utils/ui-components/FormsUI/Select";
-import { getDivisionList, listClockRecords } from "../../assets/api";
 import { useQuery } from "@tanstack/react-query";
 
 export interface Order {
@@ -63,85 +62,14 @@ export function DashboardDaliyAttandace({ sx, auth }: RecentBatches): React.JSX.
   // const [attandaceLocations, setAttandaceLocations] = useState<{ lat: number; lng: number; name: string }[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const listDivision = useQuery({
-    queryKey: ["listDivision", 0, 50],
-    queryFn: () => getDivisionList({}, 0, 50),
-    enabled: role === 1 || role === 3 || role === 4,
-    select(data) {
-      return data.data.data.map((item) => ({
-        value: item.id,
-        label: item.name,
-      }));
-    },
-    // placeholderData: false,
-    staleTime: 1000 * 60 * 5,
-  });
+  const listDivision: any = () => {};
 
   useEffect(() => {
     getAttendance();
   }, [page, rowsPerPage, filterVlaues]);
 
-  // useEffect(() => {
-  //   getPrjectsByAttandaceLocation();
-  // }, []);
-
-  // const getPrjectsByAttandaceLocation = () => {
-  //   getPrjectsByClockLocation(0, 50).then((response) => {
-  //     if (response.data) {
-  //       setProjectLocations(
-  //         response.data.data.map((item) => ({
-  //           lat: item.project.location[0],
-  //           lng: item.project.location[1],
-  //           name: item.project.name,
-  //         }))
-  //       );
-  //       let attandace: { lat: number; lng: number; name: string }[] = [];
-  //       response.data.data.map((item) => {
-  //         attandace = [
-  //           ...attandace,
-  //           ...item.attendanceRecords.map((att) => ({
-  //             lat: att.createdLocation[0],
-  //             lng: att.createdLocation[1],
-  //             name: "",
-  //           })),
-  //         ];
-  //       });
-
-  //       setAttandaceLocations(attandace);
-  //     }
-  //   });
-  // };
-
   const getAttendance = () => {
     setLoading(true);
-    listClockRecords({
-      pageSize: rowsPerPage,
-      page: page,
-      divisionId: filterVlaues.division === "ALL" ? undefined : Number(filterVlaues.division),
-      createdFrom: dayjs().startOf("day").toISOString(),
-      createdTo: dayjs().endOf("day").toISOString(),
-      joinUser: true,
-      joinProjectAssignment: true,
-    })
-      .then((response) => {
-        if (response.data) {
-          const output = response.data.data.map((item) => ({
-            id: item.id,
-            empNo: item.user?.employeeNumber || "",
-            empName: item.user?.nameInitials || "",
-            firstCheckIn: item.createdAt,
-            lastCheckIn: item?.attendanceRecords ? item?.attendanceRecords[0]?.createdAt || "" : "",
-            lastCheckout: item?.attendanceRecords ? item?.attendanceRecords[0]?.endedAt || "" : "",
-            project: item?.attendanceRecords ? item?.attendanceRecords[0]?.projectAssignment?.project?.name || "" : "",
-            location: [],
-          }));
-          setTodayAttandace(output);
-          setCount(response.data.totalCount || count);
-        } else {
-          setTodayAttandace([]);
-        }
-      })
-      .finally(() => setLoading(false));
   };
 
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
