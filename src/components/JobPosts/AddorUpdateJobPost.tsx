@@ -27,7 +27,7 @@ import { openSuccessDialog } from "../../utils/ui-components/pop-ups/SuccessDial
 import ItemImageUpload from "../../utils/ui-components/FormsUI/ItemImageUpload/item-image-upload.component";
 import { IMAGE_SIZE } from "../../store/constants";
 
-interface JobPostDetails {
+export interface JobPostDetails {
   id: number;
   jobTitle: string;
   logoPath: {

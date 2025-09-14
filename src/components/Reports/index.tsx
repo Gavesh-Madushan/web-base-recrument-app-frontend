@@ -24,6 +24,7 @@ import dayjs from "dayjs";
 import { useListJobPostings } from "../../kubb";
 import { SearchInterface, statusMap } from "../JobPosts";
 import DatePickerWrapper from "../../utils/ui-components/FormsUI/DatePicker";
+import { JobPostDetails } from "../JobPosts/AddorUpdateJobPost";
 
 function Reports() {
   const theme: any = useTheme();
@@ -87,7 +88,7 @@ function Reports() {
       cellClassName: "stickyColumn",
       renderCell: (params: any) => {
         const data = params.row;
-        const formData = {
+        const formData: JobPostDetails = {
           id: data.id,
           logoPath: {
             file: null,

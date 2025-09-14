@@ -1,129 +1,66 @@
-import * as Yup from "yup";
-import { Form, Formik } from "formik";
-import { useDispatch } from "react-redux";
 import { DataGrid } from "@mui/x-data-grid";
-import { applyGlobalValidations, formatMobile } from "../../../utils/utils";
-import { useEffect, useMemo, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { SET_BREADCRUMBS } from "../../../redux/actions/actions";
-import WorkIcon from "@mui/icons-material/Work";
-import { isMobile } from "react-device-detect";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // mui
-import { Box, Button, Chip, Grid, IconButton, InputAdornment, LinearProgress, Stack, Tooltip, Typography, useMediaQuery } from "@mui/material";
+import { Box, Chip, Grid, IconButton, LinearProgress, Stack, Tooltip } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 // custom components
-// import CreateClient from "./ClientDetails";
-import MainCard from "../../../utils/ui-components/MainCard";
-import PageHeaders from "../../../utils/ui-components/PageHeaders";
-import ViewEditDialog from "../../../utils/ui-components/ViewEditDialog";
-import TextFieldWrapper from "../../../utils/ui-components/FormsUI/TextField";
 import EmptyResultDataGrid from "../../../utils/ui-components/EmptyResultDataGrid";
 
 // mui icons
-import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
-import SearchIcon from "@mui/icons-material/Search";
-import PortraitIcon from "@mui/icons-material/Portrait";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import dayjs from "dayjs";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import { useListJobApplications } from "../../../kubb";
+import { JobPostDetails } from "../../JobPosts/AddorUpdateJobPost";
 
 const statusMap = {
-  SUBMITED: { label: "Submitted", color: "success" },
-  REJECTED: { label: "Rejected", color: "error" },
   PENDING: { label: "Pending", color: "warning" },
+  SHORTLISTED: { label: "Short Listed", color: "success" },
   INTERVIEW_SCHEDULED: { label: "Interview Scheduled", color: "primary" },
+  REJECTED: { label: "Rejected", color: "error" },
 } as const;
 
-function SortedCandidateList(props: { access: string }) {
+function SortedCandidateList(props: {
+  access: string;
+  state: JobPostDetails;
+  status: "PENDING" | "SHORTLISTED" | "INTERVIEW_SCHEDULED" | "ACCEPTED" | "REJECTED";
+}) {
   const theme: any = useTheme();
-  const matchDownSM = useMediaQuery(theme.breakpoints.down("md"));
-  const { state } = useLocation();
   const navigate = useNavigate();
-
-  const [search, setSearch] = useState(state?.search || "");
-  const [isLoading, setIsLoading] = useState(false);
-  const [jobPosts, setClients] = useState<
-    {
-      id: number;
-      name: string;
-      email: string;
-      mobile: string;
-      apply_date: string;
-      interview_date: string;
-      status: "PENDING" | "SUBMITED" | "INTERVIEW_SCHEDULED" | "REJECTED";
-    }[]
-  >([
-    {
-      id: 1,
-      name: "John Doe",
-      email: "john.doe@example.com",
-      mobile: "+94 771234567",
-      apply_date: "2025-08-01T10:00:00Z",
-      status: "PENDING",
-      interview_date: "",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      email: "jane.smith@example.com",
-      mobile: "+94 772345678",
-      apply_date: "2025-08-02T14:30:00Z",
-      status: "SUBMITED",
-      interview_date: "",
-    },
-    {
-      id: 3,
-      name: "Michael Johnson",
-      email: "michael.j@example.com",
-      mobile: "+94 773456789",
-      apply_date: "2025-08-03T09:15:00Z",
-      status: "INTERVIEW_SCHEDULED",
-      interview_date: "2025-08-10T10:00:00Z",
-    },
-    {
-      id: 4,
-      name: "Emily Brown",
-      email: "emily.brown@example.com",
-      mobile: "+94 774567890",
-      apply_date: "2025-08-04T11:45:00Z",
-      status: "REJECTED",
-      interview_date: "",
-    },
-    {
-      id: 5,
-      name: "David Lee",
-      email: "david.lee@example.com",
-      mobile: "+94 775678901",
-      apply_date: "2025-08-05T16:20:00Z",
-      status: "PENDING",
-      interview_date: "",
-    },
-  ]);
+  console.log(props.state);
 
   const [count, setCount] = useState(0);
-  const [open, setOpen] = useState<boolean>(false);
-  const [paginationModel, setPaginationModel] = useState(
-    state?.paginationModel || {
-      page: 0,
-      pageSize: 10,
-    }
-  );
+  const [paginationModel, setPaginationModel] = useState({
+    page: 0,
+    pageSize: 10,
+  });
 
-  useEffect(() => {
-    getJobPostList(search, paginationModel);
-  }, [paginationModel, search]);
+  const listItems = useListJobApplications({
+    page: paginationModel.page,
+    pageSize: paginationModel.pageSize,
+    ...(props.status !== "REJECTED"
+      ? {
+          dobFrom: props.state.age.isUse ? dayjs("1970-01-01").add(props.state.age.min, "years").toISOString() : undefined,
+          dobTo: props.state.age.isUse ? dayjs("1970-01-01").add(props.state.age.max, "years").toISOString() : undefined,
+          expectedSalaryFrom: props.state.salary.isUse ? props.state.salary.min : undefined,
+          expectedSalaryTo: props.state.salary.isUse ? props.state.salary.max : undefined,
+          experienceYearsFrom: props.state.experience.isUse ? props.state.experience.min : undefined,
+          experienceYearsTo: props.state.experience.isUse ? props.state.experience.max : undefined,
+          gender: props.state.gender.isUse ? (props.state.gender.enable as "MALE" | "FEMALE" | "OTHER") : undefined,
+          jobPostingId: Number(props.state.jobPosition),
+          qualificationLevels: props.state.qulification.isUse ? props.state.qulification.enable.map((item) => item.value).join(",") : undefined,
+        }
+      : {}),
+    processingState: props.status,
+  });
 
-  const getJobPostList = (searchValue: string, paginationModel: { page: number; pageSize: number }) => {
-    setIsLoading(false);
-    const values = {
-      activeState: undefined,
-      searchTerm: searchValue === "" ? undefined : searchValue,
-    };
-  };
+  if (listItems.data?.totalCount && listItems.data.totalCount !== count) {
+    setCount(listItems.data.totalCount);
+  }
 
   const columns = [
     {
@@ -165,6 +102,9 @@ function SortedCandidateList(props: { access: string }) {
       headerName: "Name",
       minWidth: 200,
       flex: 1,
+      renderCell: (params) => {
+        return params.row.firstName + " " + params.row.lastName;
+      },
     },
     {
       field: "email",
@@ -190,7 +130,8 @@ function SortedCandidateList(props: { access: string }) {
       headerName: "Interview Scheduled Date",
       minWidth: 150,
       flex: 1,
-      renderCell: (params) => (params.row?.interview_date ? dayjs(params.row?.interview_date).format("YYYY-MM-DD") : ""),
+      renderCell: (params) =>
+        params.row?.interview1At && params.row?.processingState === "INTERVIEW_SCHEDULED" ? dayjs(params.row?.interview1At).format("YYYY-MM-DD") : "",
     },
     {
       field: "status",
@@ -199,7 +140,7 @@ function SortedCandidateList(props: { access: string }) {
       maxWidth: 170,
       flex: 1,
       renderCell: (params) => {
-        const { label, color } = statusMap[params.row?.status] ?? {
+        const { label, color } = statusMap[params.row?.processingState] ?? {
           label: "Unknown",
           color: "default",
         };
@@ -211,12 +152,12 @@ function SortedCandidateList(props: { access: string }) {
   return (
     <Grid container justifyContent="center" spacing={1}>
       <Grid item container xs={12} spacing={1}>
-        <Grid item lg={open && !matchDownSM ? 7 : 12} md={open && !matchDownSM ? 7 : 12} sm={12} xs={12}>
+        <Grid item lg={12} md={12} sm={12} xs={12}>
           <Box sx={{ minHeight: 400, width: "100%" }}>
             <DataGrid
               columns={columns}
-              loading={isLoading}
-              rows={jobPosts}
+              loading={listItems.isLoading}
+              rows={listItems.data?.data || []}
               slots={{
                 noRowsOverlay: EmptyResultDataGrid,
                 loadingOverlay: () => <LinearProgress />,
