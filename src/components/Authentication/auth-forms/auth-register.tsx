@@ -21,11 +21,7 @@ import MenuItem from "@mui/material/MenuItem";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { useEffect, useState } from "react";
-import {
-  convertFileToBase64,
-  strengthColor,
-  strengthIndicator,
-} from "../../../utils/utils";
+import { convertFileToBase64, strengthColor, strengthIndicator } from "../../../utils/utils";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -39,7 +35,7 @@ import dayjs from "dayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
-const districts = [
+export const districts = [
   "Colombo",
   "Gampaha",
   "Kalutara",
@@ -224,44 +220,20 @@ function AuthRegister({ registerRequest, theme, ...others }: any) {
         lastName: Yup.string().notRequired(),
         nicOrPassport: Yup.string()
           .required("Please enter NIC number")
-          .matches(
-            /^(?:\d{9}[VXvx]|\d{12}|[A-Z]\d{7})$/,
-            "Invalid NIC or Passport number. NIC: 123456789V, 200123456789 | Passport: N1234567"
-          ),
-        email: Yup.string()
-          .email("Must be a valid email")
-          .max(255)
-          .required("Please enter Email"),
+          .matches(/^(?:\d{9}[VXvx]|\d{12}|[A-Z]\d{7})$/, "Invalid NIC or Passport number. NIC: 123456789V, 200123456789 | Passport: N1234567"),
+        email: Yup.string().email("Must be a valid email").max(255).required("Please enter Email"),
         gender: Yup.string().required("Please Select a Gender"),
-        dob: Yup.date()
-          .nullable()
-          .required("Date of birth is required")
-          .max(maxDate.toDate(), "Date of birth cannot be in the future"),
-        district: Yup.string()
-          .required("You must make a selection")
-          .oneOf(districts, "Please select a valid city"),
+        dob: Yup.date().nullable().required("Date of birth is required").max(maxDate.toDate(), "Date of birth cannot be in the future"),
+        district: Yup.string().required("You must make a selection").oneOf(districts, "Please select a valid city"),
         city: Yup.string().required("You must make a selection"),
         address: Yup.string().max(255, "maximum character count exceeded"),
-        residentialMobile: Yup.string().matches(
-          /^(7[0-9]{8}|0[1-9][0-9]{7})$/,
-          "Invalid mobile numbers pattern detected"
-        ),
+        residentialMobile: Yup.string().matches(/^(7[0-9]{8}|0[1-9][0-9]{7})$/, "Invalid mobile numbers pattern detected"),
       })}
       onSubmit={async (values) => {
         registerRequest(values);
       }}
     >
-      {({
-        errors,
-        handleBlur,
-        handleChange,
-        handleSubmit,
-        setFieldValue,
-        isSubmitting,
-        touched,
-        values,
-        isValid,
-      }) => (
+      {({ errors, handleBlur, handleChange, handleSubmit, setFieldValue, isSubmitting, touched, values, isValid }) => (
         <form noValidate onSubmit={handleSubmit} {...others}>
           <Grid container columnSpacing={1}>
             <Grid item xs={12} lg={12} md={12}>
@@ -279,9 +251,7 @@ function AuthRegister({ registerRequest, theme, ...others }: any) {
                     // size='small'
                     error={Boolean(touched.fullName && errors.fullName)}
                     sx={{ ...theme.typography.customInput }}
-                    helperText={
-                      touched.fullName && errors.fullName && errors.fullName
-                    }
+                    helperText={touched.fullName && errors.fullName && errors.fullName}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={6}>
@@ -296,9 +266,7 @@ function AuthRegister({ registerRequest, theme, ...others }: any) {
                     onChange={handleChange}
                     error={Boolean(touched.firstName && errors.firstName)}
                     sx={{ ...theme.typography.customInput }}
-                    helperText={
-                      touched.firstName && errors.firstName && errors.firstName
-                    }
+                    helperText={touched.firstName && errors.firstName && errors.firstName}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={6}>
@@ -312,9 +280,7 @@ function AuthRegister({ registerRequest, theme, ...others }: any) {
                     onChange={handleChange}
                     error={Boolean(touched.lastName && errors.lastName)}
                     sx={{ ...theme.typography.customInput }}
-                    helperText={
-                      touched.lastName && errors.lastName && errors.lastName
-                    }
+                    helperText={touched.lastName && errors.lastName && errors.lastName}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={6}>
@@ -327,15 +293,9 @@ function AuthRegister({ registerRequest, theme, ...others }: any) {
                     value={values.nicOrPassport}
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    error={Boolean(
-                      touched.nicOrPassport && errors.nicOrPassport
-                    )}
+                    error={Boolean(touched.nicOrPassport && errors.nicOrPassport)}
                     sx={{ ...theme.typography.customInput }}
-                    helperText={
-                      touched.nicOrPassport &&
-                      errors.nicOrPassport &&
-                      errors.nicOrPassport
-                    }
+                    helperText={touched.nicOrPassport && errors.nicOrPassport && errors.nicOrPassport}
                   />
                 </Grid>
                 <Grid item xs={12} lg={6} md={6}>
@@ -355,57 +315,30 @@ function AuthRegister({ registerRequest, theme, ...others }: any) {
                   />
                 </Grid>
                 <Grid item xs={12} lg={3} md={6}>
-                  <FormControl
-                    component="fieldset"
-                    error={touched.gender && Boolean(errors.gender)}
-                  >
+                  <FormControl component="fieldset" error={touched.gender && Boolean(errors.gender)}>
                     <FormLabel component="legend">Gender</FormLabel>
-                    <RadioGroup
-                      row
-                      name="gender"
-                      value={values.gender}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    >
-                      <FormControlLabel
-                        value="male"
-                        control={<Radio />}
-                        label="Male"
-                      />
-                      <FormControlLabel
-                        value="female"
-                        control={<Radio />}
-                        label="Female"
-                      />
+                    <RadioGroup row name="gender" value={values.gender} onChange={handleChange} onBlur={handleBlur}>
+                      <FormControlLabel value="male" control={<Radio />} label="Male" />
+                      <FormControlLabel value="female" control={<Radio />} label="Female" />
                     </RadioGroup>
-                    {touched.gender && errors.gender && (
-                      <FormHelperText>{errors.gender}</FormHelperText>
-                    )}
+                    {touched.gender && errors.gender && <FormHelperText>{errors.gender}</FormHelperText>}
                   </FormControl>
                 </Grid>
                 <Grid item xs={12} lg={4} md={6}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <FormControl
-                      error={touched.dob && Boolean(errors.dob)}
-                      fullWidth
-                    >
+                    <FormControl error={touched.dob && Boolean(errors.dob)} fullWidth>
                       <DatePicker
                         label="Date of Birth"
                         name="dob"
                         value={values.dob}
                         onChange={(value: any) => {
-                          setFieldValue(
-                            "dob",
-                            value ? value.toDate() : null,
-                            true
-                          ); // Trigger validation
+                          setFieldValue("dob", value ? value.toDate() : null, true); // Trigger validation
                         }}
                         maxDate={maxDate}
                         slotProps={{
                           textField: {
                             error: Boolean(touched.dob && errors.dob),
-                            helperText:
-                              touched.dob && errors.dob ? errors.dob : "",
+                            helperText: touched.dob && errors.dob ? errors.dob : "",
                             onBlur: handleBlur,
                             required: true,
                           },
@@ -416,14 +349,8 @@ function AuthRegister({ registerRequest, theme, ...others }: any) {
                   </LocalizationProvider>
                 </Grid>
                 <Grid item xs={12} lg={5} md={6}>
-                  <FormControl
-                    fullWidth
-                    error={Boolean(touched.district && errors.district)}
-                    sx={{ ...theme.typography.customInput }}
-                  >
-                    <InputLabel htmlFor="outlined-adornment-district-register">
-                      District *
-                    </InputLabel>
+                  <FormControl fullWidth error={Boolean(touched.district && errors.district)} sx={{ ...theme.typography.customInput }}>
+                    <InputLabel htmlFor="outlined-adornment-district-register">District *</InputLabel>
                     <Select
                       required
                       fullWidth
@@ -440,23 +367,16 @@ function AuthRegister({ registerRequest, theme, ...others }: any) {
                         </MenuItem>
                       ))}
                     </Select>
-                    {touched.district && errors.district && (
-                      <FormHelperText>{errors.district}</FormHelperText>
-                    )}
+                    {touched.district && errors.district && <FormHelperText>{errors.district}</FormHelperText>}
                   </FormControl>
                 </Grid>
                 <Grid item xs={12} lg={5} md={6}>
-                  <FormControl
-                    fullWidth
-                    error={touched.city && Boolean(errors.city)}
-                  >
+                  <FormControl fullWidth error={touched.city && Boolean(errors.city)}>
                     <Autocomplete
                       id="city"
                       options={[...new Set(cities)]}
                       value={values.city || null}
-                      onChange={(event, newValue) =>
-                        setFieldValue("city", newValue)
-                      }
+                      onChange={(event, newValue) => setFieldValue("city", newValue)}
                       onBlur={handleBlur}
                       isOptionEqualToValue={(option, value) => option === value}
                       renderInput={(params) => (
@@ -480,22 +400,14 @@ function AuthRegister({ registerRequest, theme, ...others }: any) {
                     name="residentialMobile"
                     type="tel"
                     InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">+94</InputAdornment>
-                      ),
+                      startAdornment: <InputAdornment position="start">+94</InputAdornment>,
                     }}
                     value={values.residentialMobile}
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    error={Boolean(
-                      touched.residentialMobile && errors.residentialMobile
-                    )}
+                    error={Boolean(touched.residentialMobile && errors.residentialMobile)}
                     sx={{ ...theme.typography.customInput }}
-                    helperText={
-                      touched.residentialMobile &&
-                      errors.residentialMobile &&
-                      errors.residentialMobile
-                    }
+                    helperText={touched.residentialMobile && errors.residentialMobile && errors.residentialMobile}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -510,9 +422,7 @@ function AuthRegister({ registerRequest, theme, ...others }: any) {
                     onBlur={handleBlur}
                     onChange={handleChange}
                     error={Boolean(touched.address && errors.address)}
-                    helperText={
-                      touched.address && errors.address && errors.address
-                    }
+                    helperText={touched.address && errors.address && errors.address}
                     sx={{ ...theme.typography.customInput }}
                   />
                 </Grid>
@@ -522,24 +432,11 @@ function AuthRegister({ registerRequest, theme, ...others }: any) {
           <Grid container alignItems="center" justifyContent="space-between">
             <Grid item>
               <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={checked}
-                    onChange={(event: any) => setChecked(event.target.checked)}
-                    name="checked"
-                    color="primary"
-                  />
-                }
+                control={<Checkbox checked={checked} onChange={(event: any) => setChecked(event.target.checked)} name="checked" color="primary" />}
                 label={
                   <Typography variant="body1">
                     Agree with &nbsp;
-                    <Typography
-                      variant="body1"
-                      component={Link}
-                      to="#"
-                      color="primary"
-                      sx={{ textDecoration: "underline" }}
-                    >
+                    <Typography variant="body1" component={Link} to="#" color="primary" sx={{ textDecoration: "underline" }}>
                       Terms & Condition.
                     </Typography>
                   </Typography>

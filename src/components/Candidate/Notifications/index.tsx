@@ -7,7 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { SET_BREADCRUMBS } from "../../../redux/actions/actions";
 
 // mui
-import { Avatar, Button, Grid, IconButton, InputAdornment, Pagination, Skeleton, Stack, Tooltip, Typography } from "@mui/material";
+import { Avatar, Button, Chip, Grid, IconButton, InputAdornment, Pagination, Skeleton, Stack, Tooltip, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 // custom components
@@ -22,6 +22,10 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import dayjs from "dayjs";
 import MainCard from "../../../utils/ui-components/MainCard";
 import relativeTime from "dayjs/plugin/relativeTime";
+import DatePickerWrapper from "../../../utils/ui-components/FormsUI/DatePicker";
+import { useListJobPostings } from "../../../kubb";
+import { SearchInterface } from "../../JobPosts";
+import { JobPostDetails } from "../../JobPosts/AddorUpdateJobPost";
 
 dayjs.extend(relativeTime);
 
@@ -31,65 +35,11 @@ function JobNotifications(props: { access: string }) {
   const { state } = useLocation();
   const navigate = useNavigate();
 
-  const [search, setSearch] = useState(state?.search || "");
-  const [isLoading, setIsLoading] = useState(false);
-  const [jobPosts, setJobPosts] = useState<
-    {
-      id: number;
-      name: string;
-      title: string;
-      createdAt: string;
-      endAt: string;
-      sortCount: number;
-      status: "ACTIVE" | "INACTIVE";
-    }[]
-  >([
-    {
-      id: 1,
-      name: "TechNova Solutions",
-      title: "Frontend Developer",
-      createdAt: "2025-08-01T09:00:00Z",
-      endAt: "2025-09-01T17:00:00Z",
-      sortCount: 10,
-      status: "ACTIVE",
-    },
-    {
-      id: 2,
-      name: "FinEdge Pvt Ltd",
-      title: "Backend Engineer",
-      createdAt: "2025-07-25T10:30:00Z",
-      endAt: "2025-08-25T18:00:00Z",
-      sortCount: 5,
-      status: "INACTIVE",
-    },
-    {
-      id: 3,
-      name: "MediCare Systems",
-      title: "UI/UX Designer",
-      createdAt: "2025-08-10T11:15:00Z",
-      endAt: "2025-09-10T17:30:00Z",
-      sortCount: 8,
-      status: "ACTIVE",
-    },
-    {
-      id: 4,
-      name: "EduLearn Inc.",
-      title: "Full Stack Developer",
-      createdAt: "2025-07-20T08:00:00Z",
-      endAt: "2025-08-20T16:00:00Z",
-      sortCount: 2,
-      status: "INACTIVE",
-    },
-    {
-      id: 5,
-      name: "GreenTech Labs",
-      title: "Data Analyst",
-      createdAt: "2025-08-15T14:20:00Z",
-      endAt: "2025-09-15T19:00:00Z",
-      sortCount: 12,
-      status: "ACTIVE",
-    },
-  ]);
+  const [search, setSearch] = useState<SearchInterface>({
+    createdFrom: null,
+    createdTo: null,
+    name: "",
+  });
 
   const [count, setCount] = useState(0);
   const [paginationModel, setPaginationModel] = useState(
@@ -114,16 +64,28 @@ function JobNotifications(props: { access: string }) {
     });
   }, []);
 
-  useEffect(() => {
-    getJobPostList(search, paginationModel);
-  }, [paginationModel, search]);
+  const listItems = useListJobPostings({
+    createdFrom: search.createdFrom ? search.createdFrom.toISOString() : undefined,
+    createdTo: search.createdTo ? search.createdTo.toISOString() : undefined,
+    pageSize: paginationModel.pageSize,
+    page: paginationModel.page,
+    location: undefined,
+    name: search.name ? search.name : undefined,
+    positionId: undefined,
+    processingState: undefined,
+    type: undefined,
+    workMode: undefined,
+  });
 
-  const getJobPostList = (searchValue: string, paginationModel: { page: number; pageSize: number }) => {
-    setIsLoading(false);
-    const values = {
-      activeState: undefined,
-      searchTerm: searchValue === "" ? undefined : searchValue,
-    };
+  if (listItems.data?.totalCount && listItems.data.totalCount !== count) {
+    setCount(listItems.data.totalCount);
+  }
+
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPaginationModel({
+      ...paginationModel,
+      page: value - 1,
+    });
   };
 
   return (
@@ -135,26 +97,44 @@ function JobNotifications(props: { access: string }) {
         <Grid item xs={12}>
           <Formik
             initialValues={{
-              userName: "",
+              createdFrom: null,
+              createdTo: null,
+              name: "",
             }}
             validationSchema={applyGlobalValidations(
               Yup.object().shape({
-                userName: Yup.string().notRequired(),
+                name: Yup.string().notRequired(),
+                createdFrom: Yup.date().notRequired().typeError("please enter a valid date"),
+                createdTo: Yup.date().notRequired().typeError("please enter a valid date"),
               })
             )}
             onSubmit={(values: any) => {
-              // setPage(0);
-              setSearch(values.userName || "");
+              setPaginationModel({
+                page: 0,
+                pageSize: 10,
+              });
+              setCount(0);
+              setSearch({
+                createdFrom: values.createdFrom ? values.createdFrom.startOf("day") : null,
+                createdTo: values.createdTo ? values.createdTo.endOf("day") : null,
+                name: values.name ? values.name : null,
+              });
             }}
           >
-            {() => (
+            {({ values }) => (
               <Form>
                 <Grid container columnSpacing={1} justifyContent={"flex-end"}>
+                  <Grid item lg={2.5} md={3} sm={4} xs={12} xl={2}>
+                    <DatePickerWrapper name="createdFrom" label="Created From" placeholder="Created From" maxDate={values.createdTo} />
+                  </Grid>
+                  <Grid item lg={2.5} md={3} sm={4} xs={12} xl={2}>
+                    <DatePickerWrapper name="createdTo" label="Created To" placeholder="Created To" minDate={values.createdFrom} />
+                  </Grid>
                   <Grid item>
                     <TextFieldWrapper
                       label="Search"
-                      placeholder="Search.."
-                      name="userName"
+                      placeholder="Job Post Name"
+                      name="name"
                       InputProps={{
                         endAdornment: (
                           <InputAdornment position="start">
@@ -163,8 +143,6 @@ function JobNotifications(props: { access: string }) {
                         ),
                       }}
                       size={"small"}
-                      // sx={{ minWidth: "250px" }}
-                      // fullWidth={true}
                     />
                   </Grid>
                   <Grid item>
@@ -210,7 +188,7 @@ function JobNotifications(props: { access: string }) {
             />
           </Box> */}
 
-          {isLoading && (
+          {listItems?.isLoading && (
             <MainCard>
               <Grid container spacing={1}>
                 <Grid item xs={12}>
@@ -233,55 +211,119 @@ function JobNotifications(props: { access: string }) {
               </Grid>
             </MainCard>
           )}
-          {jobPosts.map((job) => (
-            <Grid key={job.id} item xs={12} sx={{ marginBottom: "10px" }}>
-              <MainCard>
-                <Grid container spacing={2} direction={"row"}>
-                  <Grid item xs={1}>
-                    <Avatar></Avatar>
-                  </Grid>
-                  <Grid item container xs={9} spacing={1} alignContent={"center"} justifyContent={"space-between"}>
-                    <Grid item xs={12}>
-                      <Typography>{job.title}</Typography>
+          {!listItems?.isLoading &&
+            listItems?.data?.data.map((job) => {
+              const data = job;
+              const formData: JobPostDetails = {
+                id: data.id,
+                logoPath: {
+                  file: null,
+                  path: data.logoPath,
+                },
+                jobTitle: data.name,
+                jobCategory: data.position.categoryId,
+                jobPosition: data.positionId,
+                jobType: data.type,
+                jobWorkMode: data.workMode,
+                jobLocation: data.location,
+                jobDescription: data.descriptionMain,
+                jobResponsibilities: data.descriptionResponsibilities,
+                jobQualifications: data.descriptionQualifications,
+                age: {
+                  isUse: data.questionDob ? true : false,
+                  min: data.queryDobFrom ? dayjs(data.queryDobFrom).diff(dayjs("1970-01-01"), "year") : 0,
+                  max: data.queryDobTo ? dayjs(data.queryDobTo).diff(dayjs("1970-01-01"), "year") : 0,
+                  content: data.questionDob ?? "",
+                },
+                experience: {
+                  isUse: data.questionExperienceYears ? true : false,
+                  min: data.queryExperienceYearsFrom ? data.queryExperienceYearsFrom : 0,
+                  max: data.queryExperienceYearsTo ? data.queryExperienceYearsTo : 0,
+                  content: data.questionExperienceYears ?? "",
+                },
+                salary: {
+                  isUse: data.questionExpectedSalary ? true : false,
+                  min: data.queryExpectedSalaryFrom ? data.queryExpectedSalaryFrom : 0,
+                  max: data.queryExpectedSalaryTo ? data.queryExpectedSalaryTo : 0,
+                  content: data.questionExpectedSalary ?? "",
+                },
+                qulification: {
+                  isUse: data.queryQualificationLevels ? true : false,
+                  enable: data.queryQualificationLevels ? (data.queryQualificationLevels || "").split(",").map((item) => ({ value: item })) : [],
+                  content: data.queryQualificationLevels ?? "",
+                },
+                location: {
+                  isUse: data.queryPreferredLocation ? true : false,
+                  enable: data.queryPreferredLocation ? (data.queryPreferredLocation || "").split(",").map((item) => ({ value: item })) : [],
+                  content: data.queryPreferredLocation ?? "",
+                },
+                gender: {
+                  isUse: data.questionGender ? true : false,
+                  enable: data.queryGender ?? "",
+                  content: data.questionGender ?? "",
+                },
+              };
+              return (
+                <Grid key={job.id} item xs={12} sx={{ marginBottom: "10px" }}>
+                  <MainCard>
+                    <Grid container spacing={2} direction={"row"}>
+                      <Grid item xs={1}>
+                        <Avatar src={job.logoPath}></Avatar>
+                      </Grid>
+                      <Grid item container xs={9} spacing={1} alignContent={"center"} justifyContent={"space-between"}>
+                        <Grid item xs={6}>
+                          <Typography>{job.name}</Typography>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Chip label={job?.type} color="secondary" size="small" />
+                        </Grid>
+                        <Grid item>
+                          <Typography>{job?.position?.name}</Typography>
+                        </Grid>
+                        <Grid item>
+                          <Typography>Posted at: {dayjs(job.createdAt).fromNow()}</Typography>
+                        </Grid>
+                        <Grid item>
+                          <Typography>Closing Date: {dayjs(job.updatedAt).format("YYYY-MM-DD")}</Typography>
+                        </Grid>
+                      </Grid>
+                      <Grid item container xs={2} alignContent={"center"} justifyContent={"flex-end"} spacing={1}>
+                        <Grid item alignContent={"center"}>
+                          <Tooltip title="View">
+                            <IconButton
+                              aria-label="view"
+                              color="primary"
+                              onClick={() => {
+                                navigate(`/reports/${job.id}`, { state: { formData } });
+                              }}
+                            >
+                              <VisibilityIcon fontSize="inherit" color="primary" />
+                            </IconButton>
+                          </Tooltip>
+                        </Grid>
+                        <Grid item>
+                          <Button variant="contained" color="primary" endIcon={<SendIcon />} onClick={() => {}}>
+                            Apply
+                          </Button>
+                        </Grid>
+                      </Grid>
                     </Grid>
-                    <Grid item>
-                      <Typography>{job.name}</Typography>
-                    </Grid>
-                    <Grid item>
-                      <Typography>Posted at: {dayjs(job.createdAt).fromNow()}</Typography>
-                    </Grid>
-                    <Grid item>
-                      <Typography>Closing Date: {dayjs(job.endAt).format("YYYY-MM-DD")}</Typography>
-                    </Grid>
-                  </Grid>
-                  <Grid item container xs={2} alignContent={"center"} justifyContent={"flex-end"} spacing={1}>
-                    <Grid item alignContent={"center"}>
-                      <Tooltip title="View">
-                        <IconButton
-                          aria-label="view"
-                          color="primary"
-                          onClick={() => {
-                            navigate(`/reports/1`);
-                          }}
-                        >
-                          <VisibilityIcon fontSize="inherit" color="primary" />
-                        </IconButton>
-                      </Tooltip>
-                    </Grid>
-                    <Grid item>
-                      <Button variant="contained" color="primary" endIcon={<SendIcon />} onClick={() => {}}>
-                        Apply
-                      </Button>
-                    </Grid>
-                  </Grid>
+                  </MainCard>
                 </Grid>
-              </MainCard>
-            </Grid>
-          ))}
+              );
+            })}
         </Grid>
         <Grid item xs={12} sx={{ mt: "5px" }}>
           <Stack spacing={2} alignItems={"flex-end"}>
-            <Pagination count={10} variant="outlined" shape="rounded" color="primary" />
+            {/* <Pagination count={count / 10} variant="outlined" shape="rounded" color="primary" /> */}
+            <Pagination
+              count={Math.ceil(count / 10)}
+              title={""}
+              page={paginationModel.page + 1}
+              onChange={handleChange}
+              shape="rounded"
+              color="primary"
+            />
           </Stack>
         </Grid>
       </Grid>

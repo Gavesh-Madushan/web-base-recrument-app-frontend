@@ -34,8 +34,8 @@ export interface JobPostDetails {
     file: File | null;
     path: string;
   };
-  jobCategory: string;
-  jobPosition: string;
+  jobCategory: string | number;
+  jobPosition: string | number;
   jobType: string;
   jobWorkMode: string;
   jobLocation: string;
@@ -69,12 +69,12 @@ export interface JobPostDetails {
   };
   qulification: {
     isUse: boolean;
-    enable: { value: number }[];
+    enable: { value: number | string }[];
     content: string;
   };
   location: {
     isUse: boolean;
-    enable: { value: number }[];
+    enable: { value: number | string }[];
     content: string;
   };
   gender: {
