@@ -1,0 +1,1 @@
+{"type":"object","required":["email","otp"],"properties":{"email":{"type":"string","minLength":1,"maxLength":50,"pattern":"^(?!\\s).{1,50}(?<!\\s)$","format":"email","x-readme-ref-name":"Scalars.email"},"otp":{"type":"string","minLength":6,"maxLength":6,"pattern":"^[0-9]{6}$","x-readme-ref-name":"Scalars.otp"}},"x-readme-ref-name":"Sessions.SessionByOtpInput"}

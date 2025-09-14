@@ -7,6 +7,25 @@ export function signIn(input: { username: string; password: string }) {
     password: input.password,
   });
 }
+export function register(input: {
+  email: string;
+  fullName: string;
+  description: string;
+  role: string;
+  password: string;
+  confirmPassword: string;
+  prferedJobPostingIds: number[];
+}) {
+  return api.post("/users", {
+    email: input.email,
+    name: input.fullName,
+    description: input.description,
+    roleId: input.role === "COMPANY" ? 2 : 3,
+    enabledState: "ENABLED",
+    password: input.password,
+    preferredJobPositionIds: input.prferedJobPostingIds,
+  });
+}
 export function listJobPost(input: {
   page: number;
   pageSize: number;

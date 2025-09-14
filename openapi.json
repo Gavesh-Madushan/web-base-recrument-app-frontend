@@ -1025,6 +1025,9 @@
           },
           {
             "$ref": "#/components/parameters/JobPostings.JobPostingFilter.createdTo"
+          },
+          {
+            "$ref": "#/components/parameters/JobPostings.JobPostingFilter.preferredOnly"
           }
         ],
         "responses": {
@@ -2530,6 +2533,15 @@
         },
         "explode": false
       },
+      "JobPostings.JobPostingFilter.preferredOnly": {
+        "name": "preferredOnly",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        },
+        "explode": false
+      },
       "JobPostings.JobPostingFilter.processingState": {
         "name": "processingState",
         "in": "query",
@@ -4008,7 +4020,8 @@
           "description",
           "roleId",
           "enabledState",
-          "password"
+          "password",
+          "preferredJobPositionIds"
         ],
         "properties": {
           "email": {
@@ -4028,6 +4041,12 @@
           },
           "password": {
             "$ref": "#/components/schemas/Scalars.password"
+          },
+          "preferredJobPositionIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Scalars.id"
+            }
           }
         }
       }

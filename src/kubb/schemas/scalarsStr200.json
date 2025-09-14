@@ -1,0 +1,1 @@
+{"type":"string","minLength":1,"maxLength":200,"pattern":"^(?!\\s).{1,200}(?<!\\s)$","x-readme-ref-name":"Scalars.str200"}

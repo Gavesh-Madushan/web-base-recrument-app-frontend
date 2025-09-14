@@ -1,1 +1,0 @@
-{"type":"array","items":{"type":"number"},"minItems":2,"maxItems":2,"description":"A tuple denoted as [lat, long]","x-readme-ref-name":"Structs.Location"}

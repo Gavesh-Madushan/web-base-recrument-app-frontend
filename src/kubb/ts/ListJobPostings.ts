@@ -67,6 +67,10 @@ export type ListJobPostingsQueryParams = {
      * @type string | undefined, date-time
     */
     createdTo?: ScalarsDatetime;
+    /**
+     * @type boolean | undefined
+    */
+    preferredOnly?: boolean;
 };
 
 /**

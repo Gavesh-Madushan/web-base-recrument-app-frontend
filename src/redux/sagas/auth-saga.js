@@ -1,6 +1,7 @@
 import { take, fork, cancel, call, put, cancelled } from "redux-saga/effects";
 import * as actions from "../actions/actions";
 import * as api from "../../assets/api";
+import { openSuccessDialog } from "../../utils/ui-components/pop-ups/SuccessDialog";
 
 function loginApi(values) {
   return new Promise(async (resolve, reject) => {
@@ -16,8 +17,8 @@ function loginApi(values) {
 function registerApi(values) {
   return new Promise(async (resolve, reject) => {
     try {
-      // const {data} = await api.ownerRegister(values);
-      resolve(null);
+      const {data} = await api.register(values);
+      resolve(data);
     } catch (error) {
       reject(error);
     }
@@ -65,6 +66,9 @@ function* registerFlow(values) {
   let data;
   try {
     data = yield call(registerApi, values);
+    if(data?.id){
+      openSuccessDialog('Success', 'User registered successfully');
+    }
 
     // .. also inform auth redux that our login was successful
     yield put(actions.getRegisterSuccess(data));

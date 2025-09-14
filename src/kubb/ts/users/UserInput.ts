@@ -39,4 +39,8 @@ export type UsersUserInput = {
      * @type string
     */
     password: ScalarsPassword;
+    /**
+     * @type array
+    */
+    preferredJobPositionIds: ScalarsId[];
 };

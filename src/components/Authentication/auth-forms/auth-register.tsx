@@ -1,39 +1,19 @@
-import {
-  Autocomplete,
-  Box,
-  Button,
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  Grid,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Popper,
-  Radio,
-  RadioGroup,
-  Select,
-  TextField,
-  Typography,
-} from "@mui/material";
-import MenuItem from "@mui/material/MenuItem";
+import { Box, Button, FormHelperText, Grid, IconButton, InputAdornment, Tab, Tabs, TextField, Typography } from "@mui/material";
 import * as Yup from "yup";
 import { Formik } from "formik";
-import { useEffect, useState } from "react";
-import { convertFileToBase64, strengthColor, strengthIndicator } from "../../../utils/utils";
+import { useState } from "react";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AnimateButton from "../../../utils/ui-components/AnimateButton";
-import { IMAGE_SIZE, IMAGE_SUPPORTED_FORMATS } from "../../../store/constants";
-import ItemImageUpload from "../../../utils/ui-components/FormsUI/ItemImageUpload/item-image-upload.component";
 import PropTypes from "prop-types";
-import dayjs from "dayjs";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import LockIcon from "@mui/icons-material/Lock";
+import MultipleSelectCheckmarksWrapper from "../../../utils/ui-components/FormsUI/MultipleSelectCheckmarks";
+import SelectWrapper from "../../../utils/ui-components/FormsUI/Select";
+import { listJobPositions, useListJobCategories } from "../../../kubb";
+import { useQuery } from "@tanstack/react-query";
 
 export const districts = [
   "Colombo",
@@ -63,7 +43,7 @@ export const districts = [
   "Kegalle",
 ];
 
-const cities = [
+export const cities = [
   "Colombo",
   "Dehiwala",
   "Mount Lavinia",
@@ -174,68 +154,111 @@ AuthRegister.propTypes = {
 };
 
 function AuthRegister({ registerRequest, theme, ...others }: any) {
-  const maxDate = dayjs();
-  const [showPassword, setShowPassword] = useState(false);
   const [checked, setChecked] = useState(false);
+  const navigate = useNavigate();
 
-  const [strength, setStrength] = useState(0);
-  const [level, setLevel] = useState({ label: "", color: "" });
+  const [passwordShow, setPasswordShow] = useState({
+    password: "",
+    showPassword: false,
+    confirmPassword: "",
+    showConfirmPassword: false,
+  });
+  const [tabValue, setTabValue] = useState(0);
+  const [categoryId, setCategoryId] = useState(0);
 
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
+  const handleChangeTabs = (event, newValue) => {
+    setTabValue(newValue);
   };
 
-  const handleMouseDownPassword = (event: any) => {
-    event.preventDefault();
+  const handleClickShowOldPassword = () => {
+    setPasswordShow({
+      ...passwordShow,
+      showPassword: !passwordShow.showPassword,
+    });
   };
 
-  const changePassword = (value: any) => {
-    const temp = strengthIndicator(value);
-    setStrength(temp);
-    setLevel(strengthColor(temp));
+  const handleClickShowConfirmPassword = () => {
+    setPasswordShow({
+      ...passwordShow,
+      showConfirmPassword: !passwordShow.showConfirmPassword,
+    });
   };
 
-  useEffect(() => {
-    changePassword("123456");
-  }, []);
+  const listJobCategory = useListJobCategories({
+    page: 0,
+    pageSize: 50,
+  });
+
+  const listJobPosition = useQuery({
+    queryKey: ["job-positions", Number(categoryId)],
+    queryFn: () =>
+      listJobPositions({
+        categoryId: Number(categoryId),
+        page: 0,
+        pageSize: 50,
+      }),
+    // enabled: false,s
+    select: (res) => {
+      return res.data.map((item) => ({
+        value: item.id,
+        label: item.name,
+      }));
+    },
+  });
+
   return (
     <Formik
       initialValues={{
-        fullName: "",
-        firstName: "",
-        lastName: "",
-        nicOrPassport: "",
         email: "",
-        gender: "",
-        dob: null,
-        district: "",
-        city: "",
-        residentialMobile: "",
-        address: "",
-        submit: null,
+        fullName: "",
+        description: "",
+        password: "",
+        confirmPassword: "",
+        categoryId: "",
+        prferedJobPostingIds: [],
       }}
       validationSchema={Yup.object().shape({
         fullName: Yup.string().required("Please enter Full Name"),
-        firstName: Yup.string().notRequired(),
-        lastName: Yup.string().notRequired(),
-        nicOrPassport: Yup.string()
-          .required("Please enter NIC number")
-          .matches(/^(?:\d{9}[VXvx]|\d{12}|[A-Z]\d{7})$/, "Invalid NIC or Passport number. NIC: 123456789V, 200123456789 | Passport: N1234567"),
         email: Yup.string().email("Must be a valid email").max(255).required("Please enter Email"),
-        gender: Yup.string().required("Please Select a Gender"),
-        dob: Yup.date().nullable().required("Date of birth is required").max(maxDate.toDate(), "Date of birth cannot be in the future"),
-        district: Yup.string().required("You must make a selection").oneOf(districts, "Please select a valid city"),
-        city: Yup.string().required("You must make a selection"),
-        address: Yup.string().max(255, "maximum character count exceeded"),
-        residentialMobile: Yup.string().matches(/^(7[0-9]{8}|0[1-9][0-9]{7})$/, "Invalid mobile numbers pattern detected"),
+        description: Yup.string().required("Please enter description"),
+        prferedJobPostingIds:
+          tabValue === 1
+            ? Yup.array().required("You must make a selection").min(1, "Please select at least 2 job positions")
+            : Yup.array().notRequired(),
+        categoryId: tabValue === 1 ? Yup.string().required("You must make a selection") : Yup.string().notRequired(),
+        password: Yup.string()
+          .max(50)
+          .required("Password is required")
+          .matches(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
+            "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+          ),
+        confirmPassword: Yup.string()
+          .oneOf([Yup.ref("password")], "Your passwords do not match.")
+          .required("Please retype your password."),
       })}
       onSubmit={async (values) => {
-        registerRequest(values);
+        registerRequest({
+          ...values,
+          role: tabValue === 0 ? "COMPANY" : "CANDIDATE",
+          prferedJobPostingIds: values.prferedJobPostingIds.map((item) => Number(item?.value)),
+        });
+        navigate("/login");
       }}
     >
       {({ errors, handleBlur, handleChange, handleSubmit, setFieldValue, isSubmitting, touched, values, isValid }) => (
         <form noValidate onSubmit={handleSubmit} {...others}>
           <Grid container columnSpacing={1}>
+            <Grid item xs={12}>
+              <Tabs value={tabValue} onChange={handleChangeTabs} variant={"scrollable"}>
+                {[
+                  { value: "COMPANY", label: "Company" },
+                  { value: "CANDIDATE", label: "Candidates" },
+                ]?.map((empType, index) => (
+                  <Tab iconPosition="end" label={empType.label} key={index} />
+                ))}
+              </Tabs>
+            </Grid>
             <Grid item xs={12} lg={12} md={12}>
               <Grid container columnSpacing={1}>
                 <Grid item xs={12} md={12} lg={12}>
@@ -254,51 +277,7 @@ function AuthRegister({ registerRequest, theme, ...others }: any) {
                     helperText={touched.fullName && errors.fullName && errors.fullName}
                   />
                 </Grid>
-                <Grid item xs={12} md={6} lg={6}>
-                  <TextField
-                    // size='small'
-                    fullWidth
-                    label="First Name"
-                    name="firstName"
-                    type="text"
-                    value={values.firstName}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    error={Boolean(touched.firstName && errors.firstName)}
-                    sx={{ ...theme.typography.customInput }}
-                    helperText={touched.firstName && errors.firstName && errors.firstName}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} lg={6}>
-                  <TextField
-                    fullWidth
-                    label="Last Name"
-                    name="lastName"
-                    type="text"
-                    value={values.lastName}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    error={Boolean(touched.lastName && errors.lastName)}
-                    sx={{ ...theme.typography.customInput }}
-                    helperText={touched.lastName && errors.lastName && errors.lastName}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} lg={6}>
-                  <TextField
-                    required
-                    fullWidth
-                    label="NIC / Passport Number"
-                    name="nicOrPassport"
-                    type="text"
-                    value={values.nicOrPassport}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    error={Boolean(touched.nicOrPassport && errors.nicOrPassport)}
-                    sx={{ ...theme.typography.customInput }}
-                    helperText={touched.nicOrPassport && errors.nicOrPassport && errors.nicOrPassport}
-                  />
-                </Grid>
-                <Grid item xs={12} lg={6} md={6}>
+                <Grid item xs={12}>
                   <TextField
                     required
                     fullWidth
@@ -314,116 +293,104 @@ function AuthRegister({ registerRequest, theme, ...others }: any) {
                     helperText={touched.email && errors.email && errors.email}
                   />
                 </Grid>
-                <Grid item xs={12} lg={3} md={6}>
-                  <FormControl component="fieldset" error={touched.gender && Boolean(errors.gender)}>
-                    <FormLabel component="legend">Gender</FormLabel>
-                    <RadioGroup row name="gender" value={values.gender} onChange={handleChange} onBlur={handleBlur}>
-                      <FormControlLabel value="male" control={<Radio />} label="Male" />
-                      <FormControlLabel value="female" control={<Radio />} label="Female" />
-                    </RadioGroup>
-                    {touched.gender && errors.gender && <FormHelperText>{errors.gender}</FormHelperText>}
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} lg={4} md={6}>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <FormControl error={touched.dob && Boolean(errors.dob)} fullWidth>
-                      <DatePicker
-                        label="Date of Birth"
-                        name="dob"
-                        value={values.dob}
-                        onChange={(value: any) => {
-                          setFieldValue("dob", value ? value.toDate() : null, true); // Trigger validation
-                        }}
-                        maxDate={maxDate}
-                        slotProps={{
-                          textField: {
-                            error: Boolean(touched.dob && errors.dob),
-                            helperText: touched.dob && errors.dob ? errors.dob : "",
-                            onBlur: handleBlur,
-                            required: true,
-                          },
-                        }}
-                        sx={{ ...theme.typography.customInput }}
-                      />
-                    </FormControl>
-                  </LocalizationProvider>
-                </Grid>
-                <Grid item xs={12} lg={5} md={6}>
-                  <FormControl fullWidth error={Boolean(touched.district && errors.district)} sx={{ ...theme.typography.customInput }}>
-                    <InputLabel htmlFor="outlined-adornment-district-register">District *</InputLabel>
-                    <Select
-                      required
-                      fullWidth
-                      label="District"
-                      name="district"
-                      value={values.district}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      error={Boolean(touched.district && errors.district)}
-                    >
-                      {districts.map((district) => (
-                        <MenuItem key={district} value={district}>
-                          {district}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                    {touched.district && errors.district && <FormHelperText>{errors.district}</FormHelperText>}
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} lg={5} md={6}>
-                  <FormControl fullWidth error={touched.city && Boolean(errors.city)}>
-                    <Autocomplete
-                      id="city"
-                      options={[...new Set(cities)]}
-                      value={values.city || null}
-                      onChange={(event, newValue) => setFieldValue("city", newValue)}
-                      onBlur={handleBlur}
-                      isOptionEqualToValue={(option, value) => option === value}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="City *"
-                          variant="outlined"
-                          error={touched.city && Boolean(errors.city)}
-                          helperText={touched.city && errors.city}
-                        />
-                      )}
-                      sx={{ ...theme.typography.customInput }}
-                    />
-                  </FormControl>
-                </Grid>
-
-                <Grid item xs={12} md={6} lg={6}>
+                <Grid item xs={12}>
                   <TextField
                     fullWidth
-                    label="Residential Mobile Number"
-                    name="residentialMobile"
-                    type="tel"
-                    InputProps={{
-                      startAdornment: <InputAdornment position="start">+94</InputAdornment>,
-                    }}
-                    value={values.residentialMobile}
+                    label="Desctiption"
+                    name="description"
+                    type="text"
+                    multiline
+                    rows={1}
+                    value={values.description}
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    error={Boolean(touched.residentialMobile && errors.residentialMobile)}
+                    error={Boolean(touched.description && errors.description)}
+                    helperText={touched.description && errors.description && errors.description}
                     sx={{ ...theme.typography.customInput }}
-                    helperText={touched.residentialMobile && errors.residentialMobile && errors.residentialMobile}
+                  />
+                </Grid>
+                {tabValue === 1 && (
+                  <Grid item xs={12}>
+                    <SelectWrapper
+                      sx={{ ...theme.typography.customInput }}
+                      name={"categoryId"}
+                      label="Job Category"
+                      customHandleChange={(e) => {
+                        setCategoryId(e.target.value);
+                        setFieldValue("prferedJobPostingIds", []);
+                      }}
+                      options={(listJobCategory.data?.data || []).map((item) => ({ value: item.id, label: item.name }))}
+                      fullWidth
+                      required={tabValue === 1}
+                    />
+                  </Grid>
+                )}
+                {tabValue === 1 && (
+                  <Grid item xs={12}>
+                    <MultipleSelectCheckmarksWrapper
+                      name={"prferedJobPostingIds"}
+                      label="Prfered Job Posting"
+                      sx={{ ...theme.typography.customInput }}
+                      options={listJobPosition?.data || []}
+                      fullWidth
+                      required={tabValue === 1}
+                    />
+                  </Grid>
+                )}
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    label="Password"
+                    name="password"
+                    value={values.password}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    error={Boolean(touched.password && errors.password)}
+                    helperText={touched.password && errors.password && errors.password}
+                    sx={{ ...theme.typography.customInput }}
+                    type={passwordShow.showPassword ? "text" : "password"}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <LockIcon />
+                        </InputAdornment>
+                      ),
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton aria-label="toggle password visibility" onClick={handleClickShowOldPassword} edge="end">
+                            {passwordShow.showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
                     fullWidth
-                    label="Address"
-                    name="address"
-                    type="text"
-                    multiline
-                    rows={1}
-                    value={values.address}
+                    label="Confirm Password"
+                    name="confirmPassword"
+                    value={values.confirmPassword}
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    error={Boolean(touched.address && errors.address)}
-                    helperText={touched.address && errors.address && errors.address}
+                    error={Boolean(touched.confirmPassword && errors.confirmPassword)}
+                    helperText={touched.confirmPassword && errors.confirmPassword && errors.confirmPassword}
                     sx={{ ...theme.typography.customInput }}
+                    type={passwordShow.showConfirmPassword ? "text" : "password"}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <LockIcon />
+                        </InputAdornment>
+                      ),
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton aria-label="toggle password visibility" onClick={handleClickShowConfirmPassword} edge="end">
+                            {passwordShow.showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                 </Grid>
               </Grid>
