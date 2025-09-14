@@ -26,10 +26,12 @@ import DatePickerWrapper from "../../../utils/ui-components/FormsUI/DatePicker";
 import { useListJobPostings } from "../../../kubb";
 import { SearchInterface } from "../../JobPosts";
 import { JobPostDetails } from "../../JobPosts/AddorUpdateJobPost";
+import EmptyResult from "../../../utils/ui-components/EmptyResult";
 
 dayjs.extend(relativeTime);
 
 function JobNotifications(props: { access: string }) {
+  console.log(props);
   const theme: any = useTheme();
   const dispatch = useDispatch();
   const { state } = useLocation();
@@ -72,9 +74,10 @@ function JobNotifications(props: { access: string }) {
     location: undefined,
     name: search.name ? search.name : undefined,
     positionId: undefined,
-    processingState: undefined,
+    processingState: "OPEN",
     type: undefined,
     workMode: undefined,
+    preferredOnly: true,
   });
 
   if (listItems.data?.totalCount && listItems.data.totalCount !== count) {
@@ -315,10 +318,11 @@ function JobNotifications(props: { access: string }) {
                 </Grid>
               );
             })}
+
+          {count === 0 && !listItems?.isLoading && <EmptyResult />}
         </Grid>
         <Grid item xs={12} sx={{ mt: "5px" }}>
           <Stack spacing={2} alignItems={"flex-end"}>
-            {/* <Pagination count={count / 10} variant="outlined" shape="rounded" color="primary" /> */}
             <Pagination
               count={Math.ceil(count / 10)}
               title={""}
